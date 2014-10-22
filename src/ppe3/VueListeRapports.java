@@ -1,9 +1,12 @@
 package ppe3;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +20,12 @@ public class VueListeRapports extends JPanel {
 	private ModeleListeRapports modeleTableauRapports ;
 	private JTable tableauRapports ;
 	
+	private String[] moisList = { "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" };
+	private JComboBox moisBox = new JComboBox(moisList) ;
+	private String[] anneeList = { "2010", "2011", "2012", "2013", "2014" };
+	private JComboBox anneeBox = new JComboBox(anneeList) ;
+	private JComboBox visiteurBox = new JComboBox() ; 
+	
 	public VueListeRapports(AccesModele modele, Controleur controleur) {
 		super();
 		System.out.println("VueListeRapports::VueListeRapports()") ;
@@ -27,7 +36,17 @@ public class VueListeRapports extends JPanel {
 		Box boxEtiquette = Box.createHorizontalBox() ;
 		Box boxTableau = Box.createHorizontalBox() ;
 				
-		boxEtiquette.add(new JLabel("Rapports :")) ;
+		for(Visiteur visiteur : this.modele.getVisiteurs()){
+			this.visiteurBox.addItem(visiteur.getNom() + " " + visiteur.getPrenom() + " (" + visiteur.getNumero() + ")") ;
+		}
+		
+		boxEtiquette.add(new JLabel("Rapports de visite - Mois : ")) ;
+		boxEtiquette.add(moisBox) ;
+		boxEtiquette.add(new JLabel(" Année : ")) ;
+		boxEtiquette.add(anneeBox) ;
+		boxEtiquette.add(new JLabel(" Visiteur : ")) ;
+		boxEtiquette.add(visiteurBox) ;
+		
 		boxEtiquette.add(Box.createHorizontalGlue()) ;
 	
 		modeleTableauRapports = new ModeleListeRapports(modele,controleur) ;
