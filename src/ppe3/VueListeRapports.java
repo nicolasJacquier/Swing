@@ -57,14 +57,13 @@ public class VueListeRapports extends JPanel {
 	
 	private void appliquerRendu(){
 		System.out.println("VueListeRapports::appliquerRendu()") ;
-		this.tableauRapports.getColumn("Nom Praticien") ;
-		this.tableauRapports.getColumn("Ville") ;
-		this.tableauRapports.getColumn("Date visite") ;
-		//this.tableauRapports.getColumn("Date redaction") ;
-		this.tableauRapports.getColumn("Bilan") ;
-		this.tableauRapports.getColumn("Lu") ;
+		//this.tableauRapports.getColumn("Nom Praticien") ;
+		//this.tableauRapports.getColumn("Ville") ;
+		//this.tableauRapports.getColumn("Date visite") ;
+		//this.tableauRapports.getColumn("Lu") ;
 		
-		//this.tableauRapports.getColumn("Lu").setCellEditor(new EditeurBoutonLocation(new JCheckBox())) ; 
+		this.tableauRapports.getColumn("Bilan").setCellRenderer(new RenduBoutonRapports());
+		this.tableauRapports.getColumn("Bilan").setCellEditor(new EditeurBoutonRapports(new JCheckBox())) ; 
 	}
 	
 }

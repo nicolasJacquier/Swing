@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 public class ModeleListeRapports extends AbstractTableModel {
-	private List<RapportVisite> rapportsVisite ;
+	private List<RapportVisite> rapportsVisite = new ArrayList<RapportVisite>() ;
 	private final String[] entetes = {"Nom Praticien","Ville","Date visite","Date Redaction","Bilan","Lu"} ;
 	private String luT = "true" ;
 	private AccesModele modele ;
@@ -38,6 +38,7 @@ public class ModeleListeRapports extends AbstractTableModel {
 	 * @return Le contrôleur
 	 */
 	public Controleur getControleur() {
+		System.out.println("ModeleListeRapports::getControleur()");
 		return controleur;
 	}
 	
@@ -84,7 +85,7 @@ public class ModeleListeRapports extends AbstractTableModel {
 	 * @return La classe de la colonne
 	 */
 	public Class getColumnClass(int indiceColonne){
-		//System.out.println("ModeleListeLocations::getColumnClass()") ;
+		System.out.println("ModeleListeRapports::getColumnClass()") ;
 		switch(indiceColonne){
 			case 0 :
 				return String.class ;
@@ -127,7 +128,7 @@ public class ModeleListeRapports extends AbstractTableModel {
 					return "Non renseigné";
 				}
 				else{
-					if(rapportsVisite.get(indiceLigne).getLu() == luT){
+					if(rapportsVisite.get(indiceLigne).getLu() != luT){
 						return "Oui" ;
 					}
 					else {
@@ -139,4 +140,25 @@ public class ModeleListeRapports extends AbstractTableModel {
 		}
 	}
 
+	/** Permet de vérifier si une cellule est éditable
+	 * @return La valeur de la cellule
+	 */
+	public boolean isCellEditable(int indiceLigne, int indiceColonne){
+		switch(indiceColonne){
+                  case 0: 
+                	  return false;
+                  case 1: 
+                	  return false;
+                  case 2: 
+                	  return false;
+                  case 3: 
+                	  return false;
+                  case 4: 
+                	  return ( true );
+                  case 5: 
+                	  return false;
+                  default:
+                	  return false;
+             }
+         }
 }

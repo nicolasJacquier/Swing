@@ -62,8 +62,8 @@ public class Controleur {
 	 */
 	public void visualiserBilanRapportVisite(){
 		System.out.println("Controleur::visualiserBilanRapportVisite()") ;
-		//this.modele ;
-		this.vuePrincipale.changerDeVue("Liste clients") ;
+		this.modele.selectBilanRapportsVisite() ;
+		this.vuePrincipale.changerDeVue("Liste rapports de visite") ;
 	}
 	
 	/** Quitter l'application

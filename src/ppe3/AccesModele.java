@@ -170,7 +170,7 @@ public class AccesModele {
 	 public void selectBilanRapportsVisite() {
 		  //System.out.println("Remplissage Visiteurs :");
 		  String query = "SELECT VISITEUR.VIS_NOM, RAPPORT_VISITE.RAP_BILAN "
-		  		+ "FROM RAPPORT_VISITE join VISITEUR "
+		  		+ "FROM RAPPORT_VISITE JOIN VISITEUR "
 		  		+ "ON RAPPORT_VISITE.VIS_MATRICULE=VISITEUR.VIS_MATRICULE "
 		  		+ "WHERE VISITEUR.VIS_NOM=?";
 		  try {

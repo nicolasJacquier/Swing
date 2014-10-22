@@ -61,9 +61,9 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		vueVisualiserRapports = new VueListeRapports(modele,controleur);
 		
 		this.conteneur.add(vueVisualiserVisiteurs,"Liste visiteurs") ;
-		this.conteneur.add(vueVisualiserRapports,"Liste rapports") ;
+		this.conteneur.add(vueVisualiserRapports,"Liste rapports de visite") ;
 		
-		this.vues.show(this.conteneur, "Liste rapports");
+		this.vues.show(this.conteneur, "Liste rapports de visite");
 		
 		this.creerBarreMenus() ;
 		this.setVisible(true) ;

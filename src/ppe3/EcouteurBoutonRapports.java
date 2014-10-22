@@ -46,22 +46,17 @@ public class EcouteurBoutonRapports implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//System.out.println("EcouteurBoutonLocation::actionPerformed()") ;
+		System.out.println("EcouteurBoutonRapports::actionPerformed()") ;
 		Controleur controleur = ((ModeleListeRapports)this.table.getModel()).getControleur() ;
 		//int numeroLocation = ((ModeleListeRapports)this.table.getModel()).getNumeroLocation(this.row) ;
-		String bilanRapport = (((ModeleListeRapports)this.table.getModel()).getBilanRapport(this.row)) ;
+		String bilanRapport = ((ModeleListeRapports)this.table.getModel()).getBilanRapport(this.row) ;
 
 		switch(this.column){
-		case 4 :
-			System.out.println("----------------------------------------") ;
-			System.out.println("[Lire bilan]") ;
-			JTextArea textArea = new JTextArea(bilanRapport);
-			JScrollPane scrollPane = new JScrollPane(textArea);  
-			textArea.setLineWrap(true);  
-			textArea.setWrapStyleWord(true); 
-			scrollPane.setPreferredSize(new Dimension(500,100));
-			JOptionPane.showMessageDialog(null, scrollPane, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);;
-			break ;
-		}
+			case 4 :
+				System.out.println("----------------------------------------") ;
+				System.out.println("[Lire bilan]") ;
+				JOptionPane.showMessageDialog(null, bilanRapport, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);
+				break ;
+			}
 	}
 }

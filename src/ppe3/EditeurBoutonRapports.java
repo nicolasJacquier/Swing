@@ -25,7 +25,7 @@ public class EditeurBoutonRapports extends DefaultCellEditor {
 	 */
 	public EditeurBoutonRapports(JCheckBox checkBox) {
 		super(checkBox);
-		//System.out.println("EditeurBoutonLocation::EditeurBoutonLocation()") ;
+		System.out.println("EditeurBoutonRapports::EditeurBoutonRapports()") ;
 		this.bouton = new JButton() ;
 		this.bouton.setOpaque(true) ;
 		this.bouton.addActionListener(this.ecouteur) ;
@@ -34,24 +34,25 @@ public class EditeurBoutonRapports extends DefaultCellEditor {
 	/* (non-Javadoc)
 	 * @see javax.swing.DefaultCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
 	 */
-	/*
+	
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 		
-		//System.out.println("EditeurBoutonLocation::getTableCellEditorComponent()") ;
+		System.out.println("EditeurBoutonRapports::getTableCellEditorComponent()") ;
 		this.ecouteur.setRow(row) ;
 		this.ecouteur.setColumn(column) ;
 		this.ecouteur.setTable(table) ;
 		
 		if(value == null){
-			this.bouton.setText("") ;
+			this.bouton.setText("") ;		
 		}
 		else {
 			this.bouton.setText(value.toString()) ;
 		}
 		
+		
 		return this.bouton ;
 	}
-	*/
+	
 }
