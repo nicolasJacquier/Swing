@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
-public class ModeleListeRapports extends AbstractTableModel {
+public class ModeleListeRapportsModifie extends AbstractTableModel {
 	private List<RapportVisite> rapportsVisite = new ArrayList<RapportVisite>() ;
 	private final String[] entetes = {"Nom Praticien","Ville","Date visite","Date Redaction","Bilan","Lu"} ;
 	private String luT = "true" ;
@@ -17,12 +17,14 @@ public class ModeleListeRapports extends AbstractTableModel {
 	 * 
 	 * @param modele Le modèle de l'application
 	 */
-	public ModeleListeRapports(AccesModele modele, Controleur controleur){
+	public ModeleListeRapportsModifie(AccesModele modele, Controleur controleur){
 		super() ; 
 		System.out.println("ModeleListeRapports::ModeleListeRapports()") ;
 		this.modele = modele ;
 		this.controleur = controleur ;
-		rapportsVisite = modele.getRapportsVisite() ;
+//		modele.selectChoixRapportsVisite();
+		rapportsVisite = modele.getRapportsVisiteModifie() ;
+		System.out.println(rapportsVisite.size());
 	}
 	
 	/** Obtenir le modèle de l'application
@@ -162,3 +164,4 @@ public class ModeleListeRapports extends AbstractTableModel {
              }
          }
 }
+

@@ -8,7 +8,7 @@ public class RapportVisite {
 	private String motif;
 	private String praticienVille;
 	private String praticienNom;
-	private String visiteurNom;
+	private String visiteurMat;
 	private GregorianCalendar dateRedac;
 	private String lu;
 	
@@ -20,10 +20,10 @@ public class RapportVisite {
 	 * @param dateVisite La date de visite
 	 * @param dateRedac La date de rédaction
 	 */
-	public RapportVisite(String praticienNom, String visiteurNom, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille, String bilan, String lu) {
+	public RapportVisite(String praticienNom, String visiteurMat, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille, String bilan, String lu) {
 		super();
 		this.praticienNom = praticienNom;
-		this.visiteurNom = visiteurNom;
+		this.visiteurMat = visiteurMat;
 		this.dateVisite = dateVisite;
 		this.dateRedac = dateRedac;
 		this.praticienVille = praticienVille;
@@ -39,10 +39,10 @@ public class RapportVisite {
 	 * @param dateVisite La date de visite
 	 * @param dateRedac La date de rédaction
 	 */
-	public RapportVisite(String praticienNom, String visiteurNom, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille) {
+	public RapportVisite(String praticienNom, String visiteurMat, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille) {
 		super();
 		this.praticienNom = praticienNom;
-		this.visiteurNom = visiteurNom;
+		this.visiteurMat = visiteurMat;
 		this.dateVisite = dateVisite;
 		this.dateRedac = dateRedac;
 		this.praticienVille = praticienVille;
@@ -57,10 +57,10 @@ public class RapportVisite {
 	 * @param visiteur Le visiteur
 	 * @param dateVisite La date de visite
 	 */
-	public RapportVisite(String praticienNom, String visiteurNom, GregorianCalendar dateVisite) {
+	public RapportVisite(String praticienNom, String visiteurMat, GregorianCalendar dateVisite) {
 		super();
 		this.praticienNom = praticienNom;
-		this.visiteurNom = visiteurNom;
+		this.visiteurMat = visiteurMat;
 		this.dateVisite = dateVisite;
 		praticienVille = "Non renseigné";
 		bilan = "" ;
@@ -74,10 +74,10 @@ public class RapportVisite {
 	 * @param praticien Le praticien
 	 * @param visiteur Le visiteur
 	 */
-	public RapportVisite(String praticienNom, String visiteurNom) {
+	public RapportVisite(String praticienNom, String visiteurMat) {
 		super();
 		this.praticienNom = praticienNom;
-		this.visiteurNom = visiteurNom;
+		this.visiteurMat = visiteurMat;
 		this.dateVisite = new GregorianCalendar();
 		this.dateRedac = new GregorianCalendar();
 		praticienVille = "Non renseigné";
@@ -114,7 +114,7 @@ public class RapportVisite {
 		return "RapportVisite [dateVisite=" + visite
 				+ ", dateRedac= " + visite2 +", bilan=" + bilan + ", motif=" 
 				+ motif + ", lu="+ lu + ", praticien=" + praticienNom
-				+ " " + praticienNom + ", visiteur=" + visiteurNom + "]";
+				+ " " + praticienNom + ", visiteur=" + visiteurMat + "]";
 	}
 
 	public GregorianCalendar getDateVisite() {
@@ -165,12 +165,12 @@ public class RapportVisite {
 		this.praticienNom = praticienNom;
 	}
 
-	public String getVisiteurNom() {
-		return visiteurNom;
+	public String getVisiteurMat() {
+		return visiteurMat;
 	}
 
-	public void setVisiteurNom(String visiteurNom) {
-		this.visiteurNom = visiteurNom;
+	public void setVisiteurMat(String visiteurMat) {
+		this.visiteurMat = visiteurMat;
 	}
 	
 	
