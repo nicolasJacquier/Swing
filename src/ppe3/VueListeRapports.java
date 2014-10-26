@@ -136,6 +136,7 @@ public class VueListeRapports extends JPanel implements ActionListener{
 //		if(visiteurBox == (JComboBox) e.getSource()){
 			int indiceVisiteurs = visiteurBox.getSelectedIndex() ; 
 			visiteurChoix = (String) numVisiteurs.get(indiceVisiteurs) ;
+			modele.getRapportsVisiteModifie().clear();
 			modele.selectChoixRapportsVisite(anneeChoix, moisChoix, visiteurChoix);
 			modeleTableauRapportsModifie = new ModeleListeRapportsModifie(modele,controleur) ;
 			tableauRapports.setModel(modeleTableauRapportsModifie);

@@ -22,7 +22,6 @@ public class ModeleListeRapportsModifie extends AbstractTableModel {
 		System.out.println("ModeleListeRapports::ModeleListeRapports()") ;
 		this.modele = modele ;
 		this.controleur = controleur ;
-//		modele.selectChoixRapportsVisite();
 		rapportsVisite = modele.getRapportsVisiteModifie() ;
 		System.out.println(rapportsVisite.size());
 	}
