@@ -47,7 +47,6 @@ public class Visiteur {
 		this.adresse = adresse;
 	}
 
-	@Override
 	public String toString() {
 		return "Visiteur [numero=" + numero + ", nom=" + nom + ", prenom="
 				+ prenom + ", adresse=" + adresse + "]";

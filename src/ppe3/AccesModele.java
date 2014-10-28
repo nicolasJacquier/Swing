@@ -150,28 +150,16 @@ public class AccesModele {
 		  catch (SQLException ex) {System.err.println(ex.getMessage());}
 	}
 	 
-	 public void insertReadRapportsVisite() {
-		  String query = "SELECT PRATICIEN.PRA_NOM, PRATICIEN.PRA_VILLE,"
-		  		+ " RAPPORT_VISITE.RAP_DATE, RAP_DATE_REDAC, RAP_LU "
-		  		+ "FROM RAPPORT_VISITE join PRATICIEN "
-		  		+ "ON RAPPORT_VISITE.PRA_NUM=PRATICIEN.PRA_NUM "
-		  		+ "AND RAPPORT_VISITE.PRA_NUM";
-		  try {
-			  Statement st = conn.createStatement();
-			  ResultSet rs = st.executeQuery(query);
-			  int i = 0;
-			  while (rs.next()) {
-				  String numero = rs.getString("PRATICIEN.PRA_NOM");
-				  String nom = rs.getString("PRATICIEN.PRA_VILLE") ;
-				  Date prenom = rs.getDate("RAPPORT_VISITE.RAP_DATE") ;
-				  String adresse = rs.getString("VIS_ADRESSE");
-				  //this.visiteurs.add(new Visiteur(numero,nom,prenom,adresse)) ;
-				  //System.out.println(visiteurs.get(i));
-				  //i ++;
-				  }
-		  }
-		  catch (SQLException ex) {System.err.println(ex.getMessage());}
-	}
+//	 public void setReadRapportsVisite() {
+//		  String query = "UPDATE RAPPORT_VISITE "
+//		  		+ "SET RAP_LU ='Oui'"
+//		  		+ "WHERE RAP_LU ='Non'";
+//		  try {
+//			  Statement st = conn.createStatement();
+//			  int rs = st.executeUpdate(query);
+//		  }
+//		  catch (SQLException ex) {System.err.println(ex.getMessage());}
+//	}
 	 
 	 public void selectChoixRapportsVisite(String anneeChoix, String moisChoix, String visiteurChoix) {
 		  System.out.println("Remplissages Rapports :");
@@ -211,6 +199,7 @@ public class AccesModele {
 				  //System.out.println(visiteurs.get(i));
 				  //i ++;
 				  }
+			  
 		  }
 		  catch (SQLException ex) {System.err.println(ex.getMessage());}
 	}

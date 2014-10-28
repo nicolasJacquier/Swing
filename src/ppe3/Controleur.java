@@ -9,7 +9,7 @@ import java.util.* ;
  *
  */
 public class Controleur {
-
+	
 	private GuiAppliCR vuePrincipale ;
 	private AccesModele modele ;
 	
@@ -73,5 +73,6 @@ public class Controleur {
 		System.out.println("Controleur::quitterApplication()") ;
 		System.exit(0) ;
 	}
+	
 }
 	

@@ -52,4 +52,5 @@ public class Praticien {
 	public void setVille(String ville) {
 		this.ville = ville;
 	}
+	
 }

@@ -15,6 +15,7 @@ import javax.swing.JTable.* ;
 public class VueListeVisiteurs extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
 	private Controleur controleur ;
 	private AccesModele modele ;
 	

@@ -9,7 +9,6 @@ import javax.swing.table.AbstractTableModel;
 public class ModeleListeRapports extends AbstractTableModel {
 	private List<RapportVisite> rapportsVisite = new ArrayList<RapportVisite>() ;
 	private final String[] entetes = {"Nom Praticien","Ville","Date visite","Date Redaction","Bilan","Lu"} ;
-	private String luT = "true" ;
 	private AccesModele modele ;
 	private Controleur controleur;
 	
@@ -79,6 +78,15 @@ public class ModeleListeRapports extends AbstractTableModel {
 		return entetes[indiceColonne] ;
 	}
 	
+	public void setValueAt(Object value, int indiceLigne, int indiceColonne) {
+//		super.setValueAt(value, indiceLigne, indiceColonne);
+//		String estLu = rapportsVisite.get(indiceLigne).getLu() ;
+		if(indiceColonne == 5){
+			rapportsVisite.get(indiceLigne).setLu("Oui");
+		}
+		fireTableCellUpdated(indiceLigne, indiceColonne); 
+	}
+
 	/** Obtenir la classe d'une colonne
 	 * 
 	 * @param indiceColonne Le numéro de la colonne
@@ -128,7 +136,7 @@ public class ModeleListeRapports extends AbstractTableModel {
 					return "Non renseigné";
 				}
 				else{
-					if(rapportsVisite.get(indiceLigne).getLu() != luT){
+					if(rapportsVisite.get(indiceLigne).getLu() == "Oui"){
 						return "Oui" ;
 					}
 					else {
@@ -161,4 +169,5 @@ public class ModeleListeRapports extends AbstractTableModel {
                 	  return false;
              }
          }
+	
 }

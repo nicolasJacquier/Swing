@@ -16,7 +16,6 @@ public class AppliCR {
 		
 		System.out.println(" [Création de la vue principale]") ;
 		new GuiAppliCR(modele,controleur) ;
-		
 	}
 
 }

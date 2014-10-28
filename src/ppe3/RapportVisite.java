@@ -173,6 +173,4 @@ public class RapportVisite {
 		this.visiteurMat = visiteurMat;
 	}
 	
-	
-
 }

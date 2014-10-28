@@ -75,5 +75,4 @@ public class ModeleListeVisiteurs extends AbstractTableModel {
 				return null ;
 		}
 	}
-	
 }

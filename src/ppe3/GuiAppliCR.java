@@ -175,4 +175,5 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 			this.controleur.visualiserRapportsVisite() ;
 		}
 	}
+	
 }

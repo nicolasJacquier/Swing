@@ -46,16 +46,33 @@ public class EcouteurBoutonRapports implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("EcouteurBoutonRapports::actionPerformed()") ;
-		Controleur controleur = ((ModeleListeRapports)this.table.getModel()).getControleur() ;
-		//int numeroLocation = ((ModeleListeRapports)this.table.getModel()).getNumeroLocation(this.row) ;
-		String bilanRapport = ((ModeleListeRapports)this.table.getModel()).getBilanRapport(this.row) ;
+		if(table.getModel().getClass() == ModeleListeRapports.class){
+			Controleur controleur = ((ModeleListeRapports) this.table.getModel()).getControleur() ;
+			String bilanRapport = ((ModeleListeRapports)this.table.getModel()).getBilanRapport(this.row) ;
 
-		switch(this.column){
-			case 4 :
-				System.out.println("----------------------------------------") ;
-				System.out.println("[Lire bilan]") ;
-				JOptionPane.showMessageDialog(null, bilanRapport, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);
-				break ;
-			}
+			switch(this.column){
+				case 4 :
+					System.out.println("----------------------------------------") ;
+					System.out.println("[Lire bilan]") ;
+					JOptionPane.showMessageDialog(null, bilanRapport, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);
+					((ModeleListeRapports) this.table.getModel()).setValueAt(new String("Oui"), this.row, 5);
+					break ;
+				}
+		}
+		else{
+			Controleur controleur = ((ModeleListeRapportsModifie) this.table.getModel()).getControleur() ;
+			String bilanRapport = ((ModeleListeRapportsModifie)this.table.getModel()).getBilanRapport(this.row) ;
+
+			switch(this.column){
+				case 4 :
+					System.out.println("----------------------------------------") ;
+					System.out.println("[Lire bilan]") ;
+					JOptionPane.showMessageDialog(null, bilanRapport, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);
+					((ModeleListeRapportsModifie) this.table.getModel()).setValueAt(new String("Oui"), this.row, 5);
+					break ;
+				}
+		}
+		
 	}
+	
 }

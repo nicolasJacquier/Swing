@@ -9,7 +9,6 @@ import javax.swing.table.AbstractTableModel;
 public class ModeleListeRapportsModifie extends AbstractTableModel {
 	private List<RapportVisite> rapportsVisite = new ArrayList<RapportVisite>() ;
 	private final String[] entetes = {"Nom Praticien","Ville","Date visite","Date Redaction","Bilan","Lu"} ;
-	private String luT = "true" ;
 	private AccesModele modele ;
 	private Controleur controleur;
 	
@@ -129,7 +128,7 @@ public class ModeleListeRapportsModifie extends AbstractTableModel {
 					return "Non renseigné";
 				}
 				else{
-					if(rapportsVisite.get(indiceLigne).getLu() != luT){
+					if(rapportsVisite.get(indiceLigne).getLu() == "Oui"){
 						return "Oui" ;
 					}
 					else {
@@ -162,5 +161,6 @@ public class ModeleListeRapportsModifie extends AbstractTableModel {
                 	  return false;
              }
          }
+	
 }
 
