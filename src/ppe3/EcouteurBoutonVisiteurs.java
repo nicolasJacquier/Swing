@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
-public class EcouteurBoutonRapports implements ActionListener {
+public class EcouteurBoutonVisiteurs implements ActionListener {
 	private int row ;
 	private int column ;
 	private JTable table ;
@@ -42,21 +42,18 @@ public class EcouteurBoutonRapports implements ActionListener {
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("EcouteurBoutonRapports::actionPerformed()") ;
-		Controleur controleur = ((ModeleListeRapports) this.table.getModel()).getControleur() ;
-		String bilanRapport = ((ModeleListeRapports)this.table.getModel()).getBilanRapport(this.row) ;
-		String numRapport = ((ModeleListeRapports)this.table.getModel()).getNumBilanRapport(this.row) ;
-
+		System.out.println("EcouteurBoutonVisiteurs::actionPerformed()") ;
+		Controleur controleur = ((ModeleListeVisiteurs) this.table.getModel()).getControleur() ;
+		
 		switch(this.column){
-		case 5 :
+		case 4 :
 			System.out.println("----------------------------------------") ;
-			System.out.println("[Lire bilan]") ;
-			JOptionPane.showMessageDialog(null, bilanRapport, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);
-			((ModeleListeRapports) this.table.getModel()).setValueAt(new String(), this.row, 6);
-			controleur.setRapportVisiteLu(numRapport);
+			System.out.println("[Sélectionner visiteur]") ;
+			
+			
 
 			break ;
-		}			
-	}
+		}
+	}	
 
 }

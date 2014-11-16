@@ -48,7 +48,7 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		this.controleur.setVuePrincipales(this);
 		
 		this.setTitle("AppliCR") ;
-		//this.setSize(1300,500) ; 
+//		this.setSize(1300,510) ; 
 		this.setSize(1120,520) ;
 		this.setLocationRelativeTo(null) ;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE) ;
@@ -63,7 +63,7 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		this.conteneur.add(vueVisualiserVisiteurs,"Liste visiteurs") ;
 		this.conteneur.add(vueVisualiserRapports,"Liste rapports de visite") ;
 		
-		this.vues.show(this.conteneur, "Liste rapports de visite");
+		this.vues.show(this.conteneur, "Liste visiteurs");
 		
 		this.creerBarreMenus() ;
 		this.setVisible(true) ;
@@ -149,7 +149,7 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		if(nomVue.equals("Liste visiteurs")){
 			this.vueVisualiserVisiteurs.actualiser() ;
 		}
-		else if(nomVue.equals("Liste rapports")){
+		else if(nomVue.equals("Liste rapports de visite")){
 			this.vueVisualiserRapports.actualiser() ;
 		}
 		this.vues.show(this.conteneur,nomVue) ;

@@ -1,9 +1,8 @@
 package ppe3;
 
 import java.util.* ;
-import java.awt.FlowLayout;
-
 import java.awt.* ;
+
 import javax.swing.* ;
 import javax.swing.JTable.* ;
 
@@ -45,8 +44,9 @@ public class VueListeVisiteurs extends JPanel {
 		tableauVisiteurs = new JTable(modeleTableauVisiteurs) ;
 		tableauVisiteurs.setRowHeight(30) ;
 		
+		this.appliquerRendu() ;
+		
 		JScrollPane spVisiteurs = new JScrollPane(tableauVisiteurs) ;
-		//spClients.setPreferredSize(new Dimension(1290,420)) ;
 		spVisiteurs.setPreferredSize(new Dimension(1090,420)) ;
 		
 		boxTableau.add(spVisiteurs) ;
@@ -65,6 +65,13 @@ public class VueListeVisiteurs extends JPanel {
 		System.out.println("VueListeVisiteurs::actualiser()") ;
 		modeleTableauVisiteurs = new ModeleListeVisiteurs(modele) ;
 		tableauVisiteurs.setModel(modeleTableauVisiteurs) ;
+		this.appliquerRendu();
 	}
 	
+	private void appliquerRendu(){
+		System.out.println("VueListeRapports::appliquerRendu()") ;
+		
+		this.tableauVisiteurs.getColumn("Rapports").setCellRenderer(new RenduBoutonVisiteurs());
+		this.tableauVisiteurs.getColumn("Rapports").setCellEditor(new EditeurBoutonVisiteurs(new JCheckBox())) ; 
+	}
 }

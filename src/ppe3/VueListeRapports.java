@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 public class VueListeRapports extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -21,19 +24,18 @@ public class VueListeRapports extends JPanel implements ActionListener{
 	private AccesModele modele ;
 	
 	private ModeleListeRapports modeleTableauRapports ;
-	private ModeleListeRapportsModifie modeleTableauRapportsModifie ;
 	private JTable tableauRapports ;
+	private TableRowSorter trieur ;
 	
-	private String[] moisList = { "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" };
+	private String[] moisList = {"Tous les mois", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" };
 	private JComboBox moisBox = new JComboBox(moisList) ;
-	private String[] anneeList = { "2010", "2011", "2012", "2013", "2014" };
+	private String[] anneeList = {"Toutes les années", "2010", "2011", "2012", "2013", "2014" };
 	private JComboBox anneeBox = new JComboBox(anneeList) ;
 	private JComboBox visiteurBox = new JComboBox() ;
 	private ArrayList<String> numVisiteurs = new ArrayList<String>() ;
-	private String moisChoix ;
-	private String anneeChoix ;
-	private String visiteurChoix ;
 	private JButton bRecherche = new JButton("Recherche") ;
+	private JTextField dateChoix = new JTextField("") ;
+	private JTextField visiteurChoix = new JTextField("") ;
 
 	public VueListeRapports(AccesModele modele, Controleur controleur) {
 		super();
@@ -44,36 +46,38 @@ public class VueListeRapports extends JPanel implements ActionListener{
 		Box boxPrincipal = Box.createVerticalBox() ;
 		Box boxEtiquette = Box.createHorizontalBox() ;
 		Box boxTableau = Box.createHorizontalBox() ;
-				
+		
+		this.visiteurBox.addItem("Tous les visiteurs");
+		
 		for(Visiteur visiteur : this.modele.getVisiteurs()){
-			this.visiteurBox.addItem(visiteur.getNom() + " " + visiteur.getPrenom() + " (" + visiteur.getNumero() + ")") ;
+			this.visiteurBox.addItem(visiteur.getNom()) ;
 			numVisiteurs.add(new String(visiteur.getNumero())) ;
-		}
+		}		
 		
 		boxEtiquette.add(new JLabel("Rapports de visite - Mois : ")) ;
 		boxEtiquette.add(moisBox) ;
-		boxEtiquette.add(new JLabel(" Année : ")) ;
+		boxEtiquette.add(new JLabel("  - Année : ")) ;
 		boxEtiquette.add(anneeBox) ;
-		boxEtiquette.add(new JLabel(" Visiteur : ")) ;
+		boxEtiquette.add(new JLabel("  - Visiteur : ")) ;
 		boxEtiquette.add(visiteurBox) ;
-		boxEtiquette.add(new JLabel("  -  ")) ;
-		boxEtiquette.add(bRecherche);
-		
+//		boxEtiquette.add(new JLabel("  -  ")) ;
+//		boxEtiquette.add(bRecherche);
+//		bRecherche.addActionListener(this);
 		moisBox.addActionListener(this);
 		anneeBox.addActionListener(this);
 		visiteurBox.addActionListener(this);
-		bRecherche.addActionListener(this);
 		
 		boxEtiquette.add(Box.createHorizontalGlue()) ;
 	
 		modeleTableauRapports = new ModeleListeRapports(modele,controleur) ;
 		tableauRapports = new JTable(modeleTableauRapports) ;
 		tableauRapports.setRowHeight(30) ;
+		trieur = new TableRowSorter(modeleTableauRapports);
+		tableauRapports.setRowSorter(trieur);
 		
 		this.appliquerRendu() ;
 
 		JScrollPane spRapports = new JScrollPane(tableauRapports) ;
-		//spLocations.setPreferredSize(new Dimension(1290,420)) ;
 		spRapports.setPreferredSize(new Dimension(1090,420)) ;
 
 		boxTableau.add(spRapports) ;
@@ -82,12 +86,11 @@ public class VueListeRapports extends JPanel implements ActionListener{
 		boxPrincipal.add(boxTableau) ;
 		
 		this.add(boxPrincipal) ;
+				
 	}
 	
 	public void actualiser(){
 		System.out.println("VueListeRapports::actualiser()") ;
-		moisBox.setSelectedIndex(0);
-		anneeBox.setSelectedIndex(0);
 		visiteurBox.setSelectedIndex(0);
 		modeleTableauRapports = new ModeleListeRapports(modele,controleur) ;
 		tableauRapports.setModel(modeleTableauRapports);
@@ -96,10 +99,6 @@ public class VueListeRapports extends JPanel implements ActionListener{
 	
 	private void appliquerRendu(){
 		System.out.println("VueListeRapports::appliquerRendu()") ;
-		//this.tableauRapports.getColumn("Nom Praticien") ;
-		//this.tableauRapports.getColumn("Ville") ;
-		//this.tableauRapports.getColumn("Date visite") ;
-		//this.tableauRapports.getColumn("Lu") ;
 		
 		this.tableauRapports.getColumn("Bilan").setCellRenderer(new RenduBoutonRapports());
 		this.tableauRapports.getColumn("Bilan").setCellEditor(new EditeurBoutonRapports(new JCheckBox())) ; 
@@ -107,45 +106,31 @@ public class VueListeRapports extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		Object sourceEvt = e.getSource() ;
-		if(sourceEvt == this.bRecherche){
-			Object selected = moisBox.getSelectedItem();
-			if(selected.equals("Janvier")){moisChoix = "01" ;}
-			else if(selected.equals("Février")){moisChoix = "02" ;}
-			else if(selected.equals("Mars")){moisChoix = "03" ;}
-			else if(selected.equals("Avril")){moisChoix = "04" ;}
-			else if(selected.equals("Mai")){moisChoix = "05" ;}
-			else if(selected.equals("Juin")){moisChoix = "06" ;}
-			else if(selected.equals("Juillet")){moisChoix = "07" ;}
-			else if(selected.equals("Août")){moisChoix = "08" ;}
-			else if(selected.equals("Septembre")){moisChoix = "09" ;}
-			else if(selected.equals("Octobre")){moisChoix = "10" ;}
-			else if(selected.equals("Novembre")){moisChoix = "11" ;}
-			else if(selected.equals("Décembre")){moisChoix = "12" ;}
-					
-		
-//		if(anneeBox == (JComboBox) e.getSource()){
-			Object selected2 = anneeBox.getSelectedItem();
-			if(selected2.equals("2010")){anneeChoix = "2010" ;}
-			else if(selected2.equals("2011")){anneeChoix = "2011" ;}
-			else if(selected2.equals("2012")){anneeChoix = "2012" ;}
-			else if(selected2.equals("2013")){anneeChoix = "2013" ;}
-			else if(selected2.equals("2014")){anneeChoix = "2014" ;}
+				
+		String moisText = moisBox.getSelectedItem().toString();
+		String anneeText = anneeBox.getSelectedItem().toString();
+		String concatText = moisText + "/" + anneeText;
+		String visiteurText = visiteurBox.getSelectedItem().toString();
+		if(moisBox.getSelectedItem().equals("Tous les mois") && anneeBox.getSelectedItem().equals("Toutes les années") && visiteurBox.getSelectedItem().equals("Tous les visiteurs")){
+			trieur.setRowFilter(null);
+		}
+		else if(visiteurText.equals("Tous les visiteurs")){
+			trieur.setRowFilter(RowFilter.regexFilter(concatText, 3));
+		}
+		else if(moisBox.getSelectedItem().equals("Tous les mois") && anneeBox.getSelectedItem().equals("Toutes les années")){
+			trieur.setRowFilter(RowFilter.regexFilter(visiteurText, 0));
+			System.out.println(visiteurText);
+		}
+		else{
+			final RowFilter<ModeleListeRapports, String> premierFiltre = RowFilter.regexFilter(concatText, 3);
+			final RowFilter<ModeleListeRapports, String> troisiemeFiltre = RowFilter.regexFilter(visiteurText, 0);
 			
-		
-
-//		if(visiteurBox == (JComboBox) e.getSource()){
-			int indiceVisiteurs = visiteurBox.getSelectedIndex() ; 
-			visiteurChoix = (String) numVisiteurs.get(indiceVisiteurs) ;
-			modele.getRapportsVisiteModifie().clear();
-			modele.selectChoixRapportsVisite(anneeChoix, moisChoix, visiteurChoix);
-			modeleTableauRapportsModifie = new ModeleListeRapportsModifie(modele,controleur) ;
-			tableauRapports.setModel(modeleTableauRapportsModifie);
-			this.appliquerRendu();
-			//		System.out.println(indiceVisiteurs);
-			System.out.println(anneeChoix);
-			System.out.println(moisChoix);
-			System.out.println(visiteurChoix);
+			final List<RowFilter<ModeleListeRapports, String>> filtres = new ArrayList<RowFilter<ModeleListeRapports, String>>();
+			filtres.add(premierFiltre);
+			filtres.add(troisiemeFiltre);
 			
+			final RowFilter<ModeleListeRapports, String>  compoundRowFilter = RowFilter.andFilter(filtres);
+			trieur.setRowFilter(compoundRowFilter);
 		}
 		
 	}

@@ -5,6 +5,7 @@ public class Visiteur {
 	private String nom ;
 	private String prenom ;
 	private String adresse ;
+	private String numCp ;
 	
 	/** Créer un visiteur
 	 * 
@@ -13,13 +14,13 @@ public class Visiteur {
 	 * @param prenom Le prénom
 	 * @param adresse L'adresse du visiteur
 	 */
-	public Visiteur(String numero, String nom, String prenom, String adresse) {
+	public Visiteur(String numero, String nom, String prenom, String adresse, String numCp) {
 		super();
-		//System.out.println("Visiteur::Visiteur(int,String,String,String)") ;
 		this.numero = numero;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.adresse = adresse;
+		this.numCp = numCp;
 	}
 	
 	public String getNumero() {
@@ -45,6 +46,14 @@ public class Visiteur {
 	}
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
+	}
+	
+	public String getNumCp() {
+		return numCp;
+	}
+
+	public void setNumCp(String numCp) {
+		this.numCp = numCp;
 	}
 
 	public String toString() {

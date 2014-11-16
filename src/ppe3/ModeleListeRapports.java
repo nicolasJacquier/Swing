@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class ModeleListeRapports extends AbstractTableModel {
 	private List<RapportVisite> rapportsVisite = new ArrayList<RapportVisite>() ;
-	private final String[] entetes = {"Nom Praticien","Ville","Date visite","Date Redaction","Bilan","Lu"} ;
+	private final String[] entetes = {"Visiteur","Nom Praticien","Ville","Date visite","Date Redaction","Bilan","Lu"} ;
 	private AccesModele modele ;
 	private Controleur controleur;
 	
@@ -50,6 +50,15 @@ public class ModeleListeRapports extends AbstractTableModel {
 		return rapportsVisite.get(indiceLigne).getBilan() ;
 	}
 	
+	/** Obtenir le numéro du rapport de visite
+	 * 
+	 * @param indiceLigne L'indice de la ligne
+	 * @return Le numéro du rapport de visite 
+	 */
+	public String getNumBilanRapport(int indiceLigne){
+		return rapportsVisite.get(indiceLigne).getRapNum() ;
+	}
+	
 	/** Obtenir le nombre de lignes
 	 * 
 	 * @return Le nombre de lignes
@@ -78,11 +87,17 @@ public class ModeleListeRapports extends AbstractTableModel {
 		return entetes[indiceColonne] ;
 	}
 	
+	/** Savoir si un bilan de rapport de visite a été lu
+	 * 
+	 * @param value L'objet selectionné à modifier
+	 * @param indiceLigne L'indice de la ligne
+	 * @param indiceColonne L'indice de la colonne
+	 */
 	public void setValueAt(Object value, int indiceLigne, int indiceColonne) {
-//		super.setValueAt(value, indiceLigne, indiceColonne);
-//		String estLu = rapportsVisite.get(indiceLigne).getLu() ;
-		if(indiceColonne == 5){
+		if(indiceColonne == 6){
 			rapportsVisite.get(indiceLigne).setLu("Oui");
+			//controleur.setRapportVisiteLu(rapportsVisite.get(indiceLigne).getRapNum());
+//			setRead et unsetRead lors de la fermeture de l'application
 		}
 		fireTableCellUpdated(indiceLigne, indiceColonne); 
 	}
@@ -104,8 +119,10 @@ public class ModeleListeRapports extends AbstractTableModel {
 			case 3 :
 				return String.class ;
 			case 4 :
-				return JButton.class ;
+				return String.class ;
 			case 5 :
+				return JButton.class ;
+			case 6 :
 				return String.class ;
 			default :
 				return Object.class ;
@@ -122,16 +139,18 @@ public class ModeleListeRapports extends AbstractTableModel {
 		//System.out.println("ModeleListeVehicules::getValueAt()") ;
 		switch(indiceColonne){
 			case 0 : 
-				return rapportsVisite.get(indiceLigne).getPraticienNom() ;
+				return rapportsVisite.get(indiceLigne).getVisiteurNom()+" ("+rapportsVisite.get(indiceLigne).getVisiteurMat()+")" ;
 			case 1 : 
+				return rapportsVisite.get(indiceLigne).getPraticienNom() ;
+			case 2 : 
 				return rapportsVisite.get(indiceLigne).getPraticienVille() ;
-			case 2 :
+			case 3 :
 				return Dates.parseDate(rapportsVisite.get(indiceLigne).getDateVisite()) ;
-			case 3 : 
-				return Dates.parseDate(rapportsVisite.get(indiceLigne).getDateRedac()) ;
 			case 4 : 
+				return Dates.parseDate(rapportsVisite.get(indiceLigne).getDateRedac()) ;
+			case 5 : 
 				return "Contenu" ;
-			case 5 :
+			case 6 :
 				if (rapportsVisite.get(indiceLigne).getLu() == null){
 					return "Non renseigné";
 				}
@@ -162,8 +181,10 @@ public class ModeleListeRapports extends AbstractTableModel {
                   case 3: 
                 	  return false;
                   case 4: 
-                	  return ( true );
+                	  return false;
                   case 5: 
+                	  return ( true );
+                  case 6: 
                 	  return false;
                   default:
                 	  return false;

@@ -3,25 +3,55 @@ package ppe3;
 import java.util.GregorianCalendar;
 
 public class RapportVisite {
+	private String rapNum;
 	private GregorianCalendar dateVisite;
 	private String bilan;
 	private String motif;
 	private String praticienVille;
 	private String praticienNom;
 	private String visiteurMat;
+	private String visiteurNom;
 	private GregorianCalendar dateRedac;
 	private String lu;
 	
 	/** Créer un rapport de visite
 	 * 
-	 * @param numero Le numéro du rapport
-	 * @param praticien Le praticien
-	 * @param visiteur Le visiteur
+	 * @param rapNum Le numéro du rapport
+	 * @param praticienNom Le nom du praticien
+	 * @param visiteurMat Le matricule du visiteur
+	 * @param visiteurNom Le nom du visiteur
 	 * @param dateVisite La date de visite
 	 * @param dateRedac La date de rédaction
+	 * @param praticienVille La ville du praticien
+	 * @param bilan Le contenu du bilan
+	 * @param lu Informe si le bilan a été lu
 	 */
-	public RapportVisite(String praticienNom, String visiteurMat, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille, String bilan, String lu) {
+	public RapportVisite(String rapNum, String praticienNom, String visiteurNom, String visiteurMat, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille, String bilan, String lu) {
 		super();
+		this.rapNum = rapNum;
+		this.praticienNom = praticienNom;
+		this.visiteurMat = visiteurMat;
+		this.visiteurNom = visiteurNom;
+		this.dateVisite = dateVisite;
+		this.dateRedac = dateRedac;
+		this.praticienVille = praticienVille;
+		this.bilan = bilan;
+		this.lu = lu;
+	}
+	/** Créer un rapport de visite
+	 * 
+	 * @param rapNum Le numéro du rapport
+	 * @param praticienNom Le nom du praticien
+	 * @param visiteurMat Le matricule du visiteur
+	 * @param dateVisite La date de visite
+	 * @param dateRedac La date de rédaction
+	 * @param praticienVille La ville du praticien
+	 * @param bilan Le contenu du bilan
+	 * @param lu Informe si le bilan a été lu
+	 */
+	public RapportVisite(String rapNum, String praticienNom, String visiteurMat, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille, String bilan, String lu) {
+		super();
+		this.rapNum = rapNum;
 		this.praticienNom = praticienNom;
 		this.visiteurMat = visiteurMat;
 		this.dateVisite = dateVisite;
@@ -33,14 +63,16 @@ public class RapportVisite {
 	
 	/** Créer un rapport de visite
 	 * 
-	 * @param numero Le numéro du rapport
-	 * @param praticien Le praticien
-	 * @param visiteur Le visiteur
+	 * @param rapNum Le numéro du rapport
+	 * @param praticienNom Le nom du praticien
+	 * @param visiteurMat Le matricule du visiteur
 	 * @param dateVisite La date de visite
 	 * @param dateRedac La date de rédaction
+	 * @param praticienVille La ville du praticien
 	 */
-	public RapportVisite(String praticienNom, String visiteurMat, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille) {
+	public RapportVisite(String rapNum, String praticienNom, String visiteurMat, GregorianCalendar dateVisite, GregorianCalendar dateRedac, String praticienVille) {
 		super();
+		this.rapNum = rapNum;
 		this.praticienNom = praticienNom;
 		this.visiteurMat = visiteurMat;
 		this.dateVisite = dateVisite;
@@ -52,13 +84,14 @@ public class RapportVisite {
 	
 	/** Créer un rapport de visite
 	 * 
-	 * @param numero Le numéro du rapport
+	 * @param rapNum Le numéro du rapport
 	 * @param praticien Le praticien
 	 * @param visiteur Le visiteur
 	 * @param dateVisite La date de visite
 	 */
-	public RapportVisite(String praticienNom, String visiteurMat, GregorianCalendar dateVisite) {
+	public RapportVisite(String rapNum, String praticienNom, String visiteurMat, GregorianCalendar dateVisite) {
 		super();
+		this.rapNum = rapNum;
 		this.praticienNom = praticienNom;
 		this.visiteurMat = visiteurMat;
 		this.dateVisite = dateVisite;
@@ -70,12 +103,13 @@ public class RapportVisite {
 	/** Créer un rapport de visite
 	 * 
 	 * Visite ce jour
-	 * @param numero Le numéro du rapport
+	 * @param rapNum Le numéro du rapport
 	 * @param praticien Le praticien
 	 * @param visiteur Le visiteur
 	 */
-	public RapportVisite(String praticienNom, String visiteurMat) {
+	public RapportVisite(String rapNum, String praticienNom, String visiteurMat) {
 		super();
+		this.rapNum = rapNum;
 		this.praticienNom = praticienNom;
 		this.visiteurMat = visiteurMat;
 		this.dateVisite = new GregorianCalendar();
@@ -171,6 +205,22 @@ public class RapportVisite {
 
 	public void setVisiteurMat(String visiteurMat) {
 		this.visiteurMat = visiteurMat;
+	}
+
+	public String getRapNum() {
+		return rapNum;
+	}
+
+	public void setRapNum(String rapNum) {
+		this.rapNum = rapNum;
+	}
+	
+	public String getVisiteurNom() {
+		return visiteurNom;
+		
+	}
+	public void setVisiteurNom(String visiteurNom) {
+		this.visiteurNom = visiteurNom;
 	}
 	
 }

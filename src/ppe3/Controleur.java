@@ -66,11 +66,29 @@ public class Controleur {
 		this.vuePrincipale.changerDeVue("Liste rapports de visite") ;
 	}
 	
+	/** Signaler un rapport de visite comme étant "lu"
+	 * @param numRapport 
+	 * 
+	 */
+	public void setRapportVisiteLu(String numRapport){
+		System.out.println("Controleur::setRapportVisiteLu()");
+		this.modele.setReadRapportsVisite(numRapport);
+	}
+	
+	/** Signaler un rapport de visite comme étant "non lu"
+	 * 
+	 */
+	public void setRapportVisiteNonLu(){
+		System.out.println("Controleur::setRapportVisiteNonLu()");
+		this.modele.setDontReadRapportsVisite();
+	}
+	
 	/** Quitter l'application
 	 * 
 	 */
 	public void quitterApplication(){
 		System.out.println("Controleur::quitterApplication()") ;
+		setRapportVisiteNonLu();
 		System.exit(0) ;
 	}
 	

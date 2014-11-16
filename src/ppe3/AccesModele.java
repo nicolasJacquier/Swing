@@ -17,7 +17,6 @@ public class AccesModele {
 
 	private List<Visiteur> visiteurs = new ArrayList<Visiteur>() ;
 	private List<RapportVisite> rapportsVisite = new ArrayList<RapportVisite>() ;
-	private List<RapportVisite> rapportsVisiteModifie = new ArrayList<RapportVisite>() ;
 	private List<String> nomVisiteurs = new ArrayList<String>() ;
 	private List<String> prenomVisiteurs = new ArrayList<String>() ;
 	
@@ -25,9 +24,6 @@ public class AccesModele {
 	private ResultSet rs = null ;
 	private PreparedStatement ps = null;
 	
-	private String moisChoix ;
-	private String anneeChoix ;
-	private String visiteurChoix ;
 	
 	public AccesModele(){
 		JDBCheck();
@@ -48,7 +44,6 @@ public class AccesModele {
 	 private void faireTests() {
 		 selectVisiteurs();
 		 selectRapportsVisite();
-//		 selectChoixRapportsVisite();
 	 }
 
 	 private void selectAttributsVisiteurs() {
@@ -72,40 +67,20 @@ public class AccesModele {
 		  catch (SQLException ex) {System.err.println(ex.getMessage());}
 	 }
 	 
-	 private void selectAttributsPraticiens() {
-		  System.out.println("Vérification Nom, Prenom des Visiteurs :");
-		  String query = "SELECT * FROM PRATICIEN";
-		  try {
-			  Statement st = conn.createStatement();
-			  ResultSet rs = st.executeQuery(query);
-			  int i = 0;
-			  while (rs.next()) {
-				  String nom = rs.getString("PRA_NOM") ;
-				  String prenom = rs.getString("PRA_PRENOM") ;
-				  //System.out.println(nom + "   " + prenom);
-				  this.nomVisiteurs.add(nom);
-				  this.prenomVisiteurs.add(prenom);
-				  System.out.print(nomVisiteurs.get(i)+" ");
-				  System.out.println(prenomVisiteurs.get(i));
-				  i ++ ;
-				  }
-		  }
-		  catch (SQLException ex) {System.err.println(ex.getMessage());}
-	 }
-	 
 	 public void selectVisiteurs() {
 		  System.out.println("Remplissage Visiteurs :");
-		  String query = "SELECT VIS_MATRICULE, VIS_NOM, VIS_PRENOM, VIS_ADRESSE FROM VISITEUR";
+		  String query = "SELECT VIS_MATRICULE, VIS_NOM, VIS_PRENOM, VIS_ADRESSE, VIS_CP FROM VISITEUR";
 		  try {
 			  Statement st = conn.createStatement();
 			  ResultSet rs = st.executeQuery(query);
-			  int i = 0;
+//			  int i = 0;
 			  while (rs.next()) {
 				  String numero = rs.getString("VIS_MATRICULE");
 				  String nom = rs.getString("VIS_NOM") ;
 				  String prenom = rs.getString("VIS_PRENOM") ;
 				  String adresse = rs.getString("VIS_ADRESSE");
-				  this.visiteurs.add(new Visiteur(numero,nom,prenom,adresse)) ;
+				  String numCp = rs.getString("VIS_CP");
+				  this.visiteurs.add(new Visiteur(numero,nom,prenom,adresse,numCp)) ;
 				  //System.out.println(visiteurs.get(i));
 				  //i ++;
 				  }
@@ -123,66 +98,14 @@ public class AccesModele {
 		  String query = "SELECT PRATICIEN.PRA_NOM, PRATICIEN.PRA_VILLE, "
 		  		+ "RAPPORT_VISITE.RAP_DATE, RAPPORT_VISITE.RAP_DATE_REDAC, "
 		  		+ "RAPPORT_VISITE.RAP_BILAN, RAPPORT_VISITE.RAP_LU, "
-		  		+ "RAPPORT_VISITE.VIS_MATRICULE "
-		  		+ "FROM RAPPORT_VISITE, PRATICIEN "
-		  		+ "WHERE RAPPORT_VISITE.PRA_NUM=PRATICIEN.PRA_NUM ";
-		  try {
-			  PreparedStatement ps = conn.prepareStatement(query);
-			  ResultSet rs = ps.executeQuery();
-			  //int i = 0;
-			  while (rs.next()) {
-				  String matVis = rs.getString("RAPPORT_VISITE.VIS_MATRICULE");
-				  String nomPra = rs.getString("PRATICIEN.PRA_NOM");
-				  String villePra = rs.getString("PRATICIEN.PRA_VILLE") ;
-				  Date dateVisite = rs.getDate("RAPPORT_VISITE.RAP_DATE") ;
-				  Date dateRedac = rs.getDate("RAPPORT_VISITE.RAP_DATE_REDAC") ;
-				  String bilan = rs.getString("RAPPORT_VISITE.RAP_BILAN");
-				  String lu = rs.getString("RAPPORT_VISITE.RAP_LU");
-				  GregorianCalendar dateVisite2 = new GregorianCalendar();
-				  GregorianCalendar dateRedac2 = new GregorianCalendar();
-				  dateVisite2.setTime(dateVisite);
-				  dateRedac2.setTime(dateRedac);
-				  this.rapportsVisite.add(new RapportVisite(nomPra,matVis,dateVisite2,dateRedac2,villePra,bilan,lu)) ;
-				  //System.out.println(visiteurs.get(i));
-				  //i ++;
-				  }
-		  }
-		  catch (SQLException ex) {System.err.println(ex.getMessage());}
-	}
-	 
-//	 public void setReadRapportsVisite() {
-//		  String query = "UPDATE RAPPORT_VISITE "
-//		  		+ "SET RAP_LU ='Oui'"
-//		  		+ "WHERE RAP_LU ='Non'";
-//		  try {
-//			  Statement st = conn.createStatement();
-//			  int rs = st.executeUpdate(query);
-//		  }
-//		  catch (SQLException ex) {System.err.println(ex.getMessage());}
-//	}
-	 
-	 public void selectChoixRapportsVisite(String anneeChoix, String moisChoix, String visiteurChoix) {
-		  System.out.println("Remplissages Rapports :");
-		  String query = "SELECT PRATICIEN.PRA_NOM, PRATICIEN.PRA_VILLE, "
-		  		+ "RAPPORT_VISITE.RAP_DATE, RAPPORT_VISITE.RAP_DATE_REDAC, "
-		  		+ "RAPPORT_VISITE.RAP_BILAN, RAPPORT_VISITE.RAP_LU, "
-		  		+ "RAPPORT_VISITE.VIS_MATRICULE "
-		  		+ "FROM RAPPORT_VISITE, PRATICIEN "
+		  		+ "RAPPORT_VISITE.VIS_MATRICULE, RAPPORT_VISITE.RAP_NUM,"
+		  		+ "VISITEUR.VIS_NOM "
+		  		+ "FROM RAPPORT_VISITE, PRATICIEN, VISITEUR "
 		  		+ "WHERE RAPPORT_VISITE.PRA_NUM=PRATICIEN.PRA_NUM "
-		  		+ "AND YEAR(RAP_DATE)= ? "
-		  		+ "AND MONTH(RAP_DATE)= ? "
-		  		+ "AND VIS_MATRICULE= ?";
+		  		+ "AND RAPPORT_VISITE.VIS_MATRICULE=VISITEUR.VIS_MATRICULE";
 		  try {
 			  PreparedStatement ps = conn.prepareStatement(query);
-			  ps.setString(1, anneeChoix);
-			  ps.setString(2, moisChoix);
-			  ps.setString(3, visiteurChoix);
-//			  ps.setString(1, "2013");
-//			  ps.setString(2, "04");
-//			  ps.setString(3, "a131");
 			  ResultSet rs = ps.executeQuery();
-			  System.out.println(query);
-			  //int i = 0;
 			  while (rs.next()) {
 				  String matVis = rs.getString("RAPPORT_VISITE.VIS_MATRICULE");
 				  String nomPra = rs.getString("PRATICIEN.PRA_NOM");
@@ -191,21 +114,49 @@ public class AccesModele {
 				  Date dateRedac = rs.getDate("RAPPORT_VISITE.RAP_DATE_REDAC") ;
 				  String bilan = rs.getString("RAPPORT_VISITE.RAP_BILAN");
 				  String lu = rs.getString("RAPPORT_VISITE.RAP_LU");
+				  String rapNum = rs.getString("RAPPORT_VISITE.RAP_NUM");
+				  String nomVis = rs.getString("VISITEUR.VIS_NOM");
 				  GregorianCalendar dateVisite2 = new GregorianCalendar();
 				  GregorianCalendar dateRedac2 = new GregorianCalendar();
 				  dateVisite2.setTime(dateVisite);
 				  dateRedac2.setTime(dateRedac);
-				  this.rapportsVisiteModifie.add(new RapportVisite(nomPra,matVis,dateVisite2,dateRedac2,villePra,bilan,lu)) ;
+				  this.rapportsVisite.add(new RapportVisite(rapNum,nomPra,nomVis,matVis,dateVisite2,dateRedac2,villePra,bilan,lu)) ;
 				  //System.out.println(visiteurs.get(i));
 				  //i ++;
 				  }
-			  
 		  }
 		  catch (SQLException ex) {System.err.println(ex.getMessage());}
 	}
 	 
-	 public List<RapportVisite> getRapportsVisiteModifie() {
-		return rapportsVisiteModifie;
+	 
+	 public void setReadRapportsVisite(String numRapport) {
+		  String query = "UPDATE RAPPORT_VISITE "
+		  		+ "SET RAP_LU ='Oui' "
+		  		+ "WHERE RAP_LU ='Non' "
+		  		+ "AND RAP_NUM= ?";
+		  try {
+			  Class.forName("com.mysql.jdbc.Driver").newInstance();
+			  String url = "jdbc:mysql://localhost/GsbCRSlam";
+			  conn = DriverManager.getConnection(url, "root", "mysql");
+			  PreparedStatement st = conn.prepareStatement(query);
+			  st.setString(1, numRapport);
+			  int rs = st.executeUpdate();
+		  }
+		  catch (SQLException ex) {System.err.println(ex.getMessage());}
+		  catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
+		  catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
+		  catch (InstantiationException ex) {System.err.println(ex.getMessage());}
+	}
+	 
+	 public void setDontReadRapportsVisite() {
+		  String query = "UPDATE RAPPORT_VISITE "
+		  		+ "SET RAP_LU ='Non' "
+		  		+ "WHERE RAP_LU ='Oui' " ;
+		  try {
+			  Statement st = conn.createStatement();
+			  int rs = st.executeUpdate(query);
+		  }
+		  catch (SQLException ex) {System.err.println(ex.getMessage());}
 	}
 
 	public void selectBilanRapportsVisite() {
@@ -230,9 +181,8 @@ public class AccesModele {
 		return rapportsVisite;
 	}
 	 
-	 /*
-	public static void main(String [] args) {
-			AccesModele test = new AccesModele() ;
-	 }
-	 */ 
+//	public List<RapportVisite> refreshRapportsVisite() {
+//		JDBCheck();
+//		return rapportsVisite;
+//	}
 }

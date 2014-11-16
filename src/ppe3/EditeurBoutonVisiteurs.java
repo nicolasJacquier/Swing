@@ -12,20 +12,20 @@ import javax.swing.JTable;
  * @author Weber
  *
  */
-public class EditeurBoutonRapports extends DefaultCellEditor {
+public class EditeurBoutonVisiteurs extends DefaultCellEditor {
 
 	private static final long serialVersionUID = 1L;
 	protected JButton bouton ;
 	private boolean isPushed ;
-	private EcouteurBoutonRapports ecouteur = new EcouteurBoutonRapports() ;
+	private EcouteurBoutonVisiteurs ecouteur = new EcouteurBoutonVisiteurs() ;
 
 	/** Créer l'éditeur
 	 * 
 	 * @param checkBox La case à cocher associée au bouton
 	 */
-	public EditeurBoutonRapports(JCheckBox checkBox) {
+	public EditeurBoutonVisiteurs(JCheckBox checkBox) {
 		super(checkBox);
-		System.out.println("EditeurBoutonRapports::EditeurBoutonRapports()") ;
+		System.out.println("EditeurBoutonVisiteurs::EditeurBoutonRapports()") ;
 		this.bouton = new JButton() ;
 		this.bouton.setOpaque(true) ;
 		this.bouton.addActionListener(this.ecouteur) ;
@@ -38,7 +38,7 @@ public class EditeurBoutonRapports extends DefaultCellEditor {
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 		
-		System.out.println("EditeurBoutonRapports::getTableCellEditorComponent()") ;
+		System.out.println("EditeurBoutonVisiteurs::getTableCellEditorComponent()") ;
 		this.ecouteur.setRow(row) ;
 		this.ecouteur.setColumn(column) ;
 		this.ecouteur.setTable(table) ;
