@@ -3,6 +3,7 @@ package ppe3 ;
 import java.util.* ;
 
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.table.* ;
 
 /** Modèle du tableau des clients
@@ -17,16 +18,18 @@ public class ModeleListeVisiteurs extends AbstractTableModel {
 	
 	private AccesModele modele ;
 	private Controleur controleur;
+	private VueListeRapports vueListeRapports;
 	
 	
 	/** Créer le modèle de la liste des clients
 	 * 
 	 * @param modele Le modèle de l'application
 	 */
-	public ModeleListeVisiteurs(AccesModele modele){
+	public ModeleListeVisiteurs(AccesModele modele, Controleur controleur){
 		super() ; 
 		System.out.println("ModeleListeVisiteurs::ModeleListeVisiteurs()") ;
 		this.modele = modele ;
+		this.controleur = controleur ;
 		visiteurs = modele.getVisiteurs() ;
 	}
 	
@@ -45,6 +48,19 @@ public class ModeleListeVisiteurs extends AbstractTableModel {
 	public Controleur getControleur() {
 		System.out.println("ModeleListeVisiteurs::getControleur()");
 		return controleur;
+	}
+	
+	/** Obtenir le nom du visiteur
+	 * 
+	 * @param indiceLigne L'indice de la ligne
+	 * @return Le nom du visiteur
+	 */
+	public String getNomVisiteur(int indiceLigne) {
+		return visiteurs.get(indiceLigne).getNom() ;
+	}
+	
+	public VueListeRapports getVueListeRapports() {
+		return vueListeRapports;
 	}
 	
 	/** Obtenir le nombre de lignes

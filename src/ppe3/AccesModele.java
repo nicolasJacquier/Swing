@@ -24,6 +24,9 @@ public class AccesModele {
 	private ResultSet rs = null ;
 	private PreparedStatement ps = null;
 	
+	private String visiteur = "";
+	private String annee = "";
+	private String mois = "";
 	
 	public AccesModele(){
 		JDBCheck();
@@ -180,9 +183,28 @@ public class AccesModele {
 	public List<RapportVisite> getRapportsVisite() {
 		return rapportsVisite;
 	}
-	 
-//	public List<RapportVisite> refreshRapportsVisite() {
-//		JDBCheck();
-//		return rapportsVisite;
-//	}
+
+	public void setVisiteurPourRapport(String nomVisiteur) {
+		visiteur = nomVisiteur ;
+	}
+	
+	public String getVisiteurPourRapport() {
+		return visiteur ;
+	}
+	
+	public void setAnneePourRapport(String anneeField) {
+		annee = anneeField ;
+	}
+	
+	public String getAnneePourRapport() {
+		return annee ;
+	}
+	
+	public void setMoisPourRapport(String moisField) {
+		mois = moisField ;
+	}
+	
+	public String getMoisPourRapport() {
+		return mois ;
+	}
 }

@@ -1,5 +1,6 @@
 package ppe3;
 
+import java.awt.Component;
 import java.util.* ;
 
 /** Contrôleur de l'application
@@ -75,12 +76,60 @@ public class Controleur {
 		this.modele.setReadRapportsVisite(numRapport);
 	}
 	
-	/** Signaler un rapport de visite comme étant "non lu"
+	/** Signaler un rapport de visite comme étant "non lu"vuePrincipale
 	 * 
 	 */
 	public void setRapportVisiteNonLu(){
 		System.out.println("Controleur::setRapportVisiteNonLu()");
 		this.modele.setDontReadRapportsVisite();
+	}
+	
+	/** Modifier le paramètre : visiteur du rapport de visite à partir de la sélection d'un visiteur
+	 * 
+	 */
+	public void setVisiteurRapport(String nomVisiteur){
+		System.out.println("Controleur::setVisiteurRapport()");
+		this.modele.setVisiteurPourRapport(nomVisiteur);
+	}
+		
+	/** Obtenir le paramètre : visiteur du rapport de visite à partir de la sélection d'un visiteur
+	 * 
+	 */
+	public String getVisiteurRapport(){
+		System.out.println("Controleur::setVisiteurRapport()");
+		return this.modele.getVisiteurPourRapport();
+	}
+	
+	/** Modifier le paramètre : mois du rapport de visite à partir de la sélection d'un visiteur
+	 * 
+	 */
+	public void setMoisRapport(String moisRapport){
+		System.out.println("Controleur::setMoisRapport()");
+		this.modele.setMoisPourRapport(moisRapport);
+	}
+		
+	/** Obtenir le paramètre : mois du rapport de visite à partir de la sélection d'un visiteur
+	 * 
+	 */
+	public String getMoisRapport(){
+		System.out.println("Controleur::getMoisRapport()");
+		return this.modele.getMoisPourRapport();
+	}
+	
+	/** Modifier le paramètre : année du rapport de visite à partir de la sélection d'un visiteur
+	 * 
+	 */
+	public void setAnneeRapport(String anneeRapport){
+		System.out.println("Controleur::setAnneeRapport()");
+		this.modele.setAnneePourRapport(anneeRapport);
+	}
+		
+	/** Obtenir le paramètre : année du rapport de visite à partir de la sélection d'un visiteur
+	 * 
+	 */
+	public String getAnneeRapport(){
+		System.out.println("Controleur::getAnneeRapport()");
+		return this.modele.getAnneePourRapport();
 	}
 	
 	/** Quitter l'application

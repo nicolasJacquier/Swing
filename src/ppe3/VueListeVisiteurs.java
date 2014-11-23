@@ -40,7 +40,7 @@ public class VueListeVisiteurs extends JPanel {
 		boxEtiquette.add(new JLabel("Visiteurs :")) ;
 		boxEtiquette.add(Box.createHorizontalGlue()) ;
 		
-		modeleTableauVisiteurs = new ModeleListeVisiteurs(modele) ;
+		modeleTableauVisiteurs = new ModeleListeVisiteurs(modele, controleur) ;
 		tableauVisiteurs = new JTable(modeleTableauVisiteurs) ;
 		tableauVisiteurs.setRowHeight(30) ;
 		
@@ -63,13 +63,13 @@ public class VueListeVisiteurs extends JPanel {
 	 */
 	public void actualiser(){
 		System.out.println("VueListeVisiteurs::actualiser()") ;
-		modeleTableauVisiteurs = new ModeleListeVisiteurs(modele) ;
+		modeleTableauVisiteurs = new ModeleListeVisiteurs(modele, controleur) ;
 		tableauVisiteurs.setModel(modeleTableauVisiteurs) ;
 		this.appliquerRendu();
 	}
 	
 	private void appliquerRendu(){
-		System.out.println("VueListeRapports::appliquerRendu()") ;
+		System.out.println("VueListeVisiteurs::appliquerRendu()") ;
 		
 		this.tableauVisiteurs.getColumn("Rapports").setCellRenderer(new RenduBoutonVisiteurs());
 		this.tableauVisiteurs.getColumn("Rapports").setCellEditor(new EditeurBoutonVisiteurs(new JCheckBox())) ; 

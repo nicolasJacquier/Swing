@@ -25,7 +25,7 @@ public class EditeurBoutonVisiteurs extends DefaultCellEditor {
 	 */
 	public EditeurBoutonVisiteurs(JCheckBox checkBox) {
 		super(checkBox);
-		System.out.println("EditeurBoutonVisiteurs::EditeurBoutonRapports()") ;
+		System.out.println("EditeurBoutonVisiteurs::EditeurBoutonVisiteurs()") ;
 		this.bouton = new JButton() ;
 		this.bouton.setOpaque(true) ;
 		this.bouton.addActionListener(this.ecouteur) ;
