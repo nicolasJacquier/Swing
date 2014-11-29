@@ -27,56 +27,52 @@ public class AccesModele {
 	private String visiteur = "";
 	private String annee = "";
 	private String mois = "";
+	private String sMatriculeDelegC = "";
 	
 	public AccesModele(){
-		JDBCheck();
+		super();
 	}
 	
-	public void JDBCheck() {
+	public void remplirVisiteurs(String matDeg) {
 		try {
 		    Class.forName("com.mysql.jdbc.Driver").newInstance();
 		    String url = "jdbc:mysql://localhost/GsbCRSlam";
 		    conn = DriverManager.getConnection(url, "root", "mysql");
-		    faireTests();
+		    selectVisiteurs(matDeg);
 	    }
 		    catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
 		    catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
 		    catch (InstantiationException ex) {System.err.println(ex.getMessage());}
 		    catch (SQLException ex)           {System.err.println(ex.getMessage());}
 	 }
-	 private void faireTests() {
-		 selectVisiteurs();
-		 selectRapportsVisite();
-	 }
-
-	 private void selectAttributsVisiteurs() {
-		  System.out.println("Vérification Nom, Prenom des Visiteurs :");
-		  String query = "SELECT * FROM VISITEUR";
-		  try {
-			  Statement st = conn.createStatement();
-			  ResultSet rs = st.executeQuery(query);
-			  int i = 0;
-			  while (rs.next()) {
-				  String nom = rs.getString("VIS_NOM") ;
-				  String prenom = rs.getString("VIS_PRENOM") ;
-				  //System.out.println(nom + "   " + prenom);
-				  this.nomVisiteurs.add(nom);
-				  this.prenomVisiteurs.add(prenom);
-				  System.out.print(nomVisiteurs.get(i)+" ");
-				  System.out.println(prenomVisiteurs.get(i));
-				  i ++ ;
-				  }
-		  }
-		  catch (SQLException ex) {System.err.println(ex.getMessage());}
+	
+	public void remplirRapports() {
+		try {
+		    Class.forName("com.mysql.jdbc.Driver").newInstance();
+		    String url = "jdbc:mysql://localhost/GsbCRSlam";
+		    conn = DriverManager.getConnection(url, "root", "mysql");
+		    selectRapportsVisite();
+	    }
+		    catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
+		    catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
+		    catch (InstantiationException ex) {System.err.println(ex.getMessage());}
+		    catch (SQLException ex)           {System.err.println(ex.getMessage());}
 	 }
 	 
-	 public void selectVisiteurs() {
+	 public void selectVisiteurs(String matDeg) {
 		  System.out.println("Remplissage Visiteurs :");
-		  String query = "SELECT VIS_MATRICULE, VIS_NOM, VIS_PRENOM, VIS_ADRESSE, VIS_CP FROM VISITEUR";
+		  String query = "SELECT VISITEUR.VIS_MATRICULE, VIS_NOM, VIS_PRENOM, VIS_ADRESSE, VIS_CP FROM VISITEUR "
+		  		+ "INNER JOIN TRAVAILLER on VISITEUR.VIS_MATRICULE = TRAVAILLER.VIS_MATRICULE "
+		  		+ "WHERE TRA_ROLE = 'Visiteur' "
+		  		+ "AND TRAVAILLER.REG_CODE IN (SELECT REGION.REG_CODE FROM REGION "
+		  		+ "								INNER JOIN TRAVAILLER "
+		  		+ "								ON TRAVAILLER.REG_CODE = REGION.REG_CODE "
+		  		+ "								WHERE TRAVAILLER.VIS_MATRICULE=? "
+		  		+ "								AND TRAVAILLER.TRA_ROLE='Délégué') ";
 		  try {
-			  Statement st = conn.createStatement();
-			  ResultSet rs = st.executeQuery(query);
-//			  int i = 0;
+			  PreparedStatement st = conn.prepareStatement(query);
+			  st.setString(1,matDeg);
+			  ResultSet rs = st.executeQuery();
 			  while (rs.next()) {
 				  String numero = rs.getString("VIS_MATRICULE");
 				  String nom = rs.getString("VIS_NOM") ;
@@ -84,9 +80,7 @@ public class AccesModele {
 				  String adresse = rs.getString("VIS_ADRESSE");
 				  String numCp = rs.getString("VIS_CP");
 				  this.visiteurs.add(new Visiteur(numero,nom,prenom,adresse,numCp)) ;
-				  //System.out.println(visiteurs.get(i));
-				  //i ++;
-				  }
+			  }
 		  }
 		  catch (SQLException ex) {System.err.println(ex.getMessage());}
 	}
@@ -206,5 +200,73 @@ public class AccesModele {
 	
 	public String getMoisPourRapport() {
 		return mois ;
+	}
+	
+	/** Obtenir le matricule du délégué connecté
+	 *
+	 * @return Matricule du délégué connecté
+	 */
+	public String getDelegueConnecter(){
+		return this.sMatriculeDelegC;
+	}
+	/** Définir un matricule du délégué connecté
+	 *
+	 * @param sMatriculeDelegC Matricule du délégué
+	 */
+	public void setDelegueConnecter(String sMatriculeDelegC){
+		this.sMatriculeDelegC = sMatriculeDelegC;
+	}
+
+	/** Se connecter en tant que délégué régional
+	 *
+	 * @param login Identifiant de l'utilisateur
+	 * @param mdp Mot de passe de l'utilisateur
+	 * @return Vrai si l'identifiant et le mot de passe correspondent
+	 * @throws SQLException Peut générer une exception sql
+	 */
+	public boolean seConnecter(String login, String mdp) throws SQLException {
+		boolean bToAccess = false;
+		String query = "SELECT VISITEUR.VIS_MATRICULE ,VIS_MDP "
+				+ "FROM VISITEUR "
+				+ "INNER JOIN TRAVAILLER ON VISITEUR.VIS_MATRICULE = TRAVAILLER.VIS_MATRICULE "
+				+ "WHERE VISITEUR.VIS_MATRICULE=? AND VISITEUR.VIS_MDP=? AND TRAVAILLER.TRA_ROLE='Délégué'";
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			String url = "jdbc:mysql://localhost/GsbCRSlam";
+			conn = DriverManager.getConnection(url, "root", "mysql");
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setString(1, login);
+			st.setString(2, mdp);
+			rs = st.executeQuery();
+			while (rs.next()) {
+				if(login.equals(rs.getString("VIS_MATRICULE"))) {
+					if(mdp.equals(rs.getString("VIS_MDP"))) {
+						bToAccess = true;
+						this.setDelegueConnecter(rs.getString("VIS_MATRICULE"));
+						this.remplirVisiteurs(rs.getString("VIS_MATRICULE"));
+						this.remplirRapports();
+						
+					}
+				}
+			}
+		}
+		catch (SQLException ex) {System.err.println(ex.getMessage());}
+		catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
+		catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
+		catch (InstantiationException ex) {System.err.println(ex.getMessage());}
+		
+		return bToAccess;
+	}
+	
+	/** Réinitialiser tous les attributs de la classe
+	 *
+	 */
+	public void resetData(){
+		this.visiteurs = new ArrayList<Visiteur>() ;
+		this.rapportsVisite = new ArrayList<RapportVisite>() ;
+		this.visiteur = null;
+		this.annee = null ;
+		this.mois = null ;
+		this.sMatriculeDelegC = null;
 	}
 }

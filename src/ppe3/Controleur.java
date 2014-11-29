@@ -1,6 +1,7 @@
 package ppe3;
 
 import java.awt.Component;
+import java.sql.SQLException;
 import java.util.* ;
 
 /** Contrôleur de l'application
@@ -40,6 +41,14 @@ public class Controleur {
 	public void setVuePrincipales(GuiAppliCR vuePrincipale) {
 		System.out.println("Controleur::setVuePrincipale()") ;
 		this.vuePrincipale = vuePrincipale ;
+	}
+	
+	/** Visualiser la page de connexion
+	 * 
+	 */
+	public void visualiserConnexion(){
+		System.out.println("Controleur::visualiserConnexion()") ;
+		this.vuePrincipale.changerDeVue("Vue connexion");
 	}
 	
 	/** Visualiser la liste des visiteurs sous une forme tabulaire
@@ -139,6 +148,38 @@ public class Controleur {
 		System.out.println("Controleur::quitterApplication()") ;
 		setRapportVisiteNonLu();
 		System.exit(0) ;
+	}
+
+	/** Connecter un délégué régional
+	 *
+	 * @param sLogin L'identifiant du délégué
+	 * @param sPasswd Le mot de passe du délégué
+	 * @throws SQLException Peut générer une exception sql
+	 * @return Vrai si il existe un délégué avec cet indentifiant et mot de passe
+	 */
+	public boolean seConnecter(String sLogin, String sPasswd ) throws SQLException {
+		boolean bSuccess = true;
+		System.out.println("Controleur::seConnecter()") ;
+		boolean coOK = this.modele.seConnecter(sLogin,sPasswd) ;
+		if (coOK == true){
+			this.vuePrincipale.etatMenu(1);
+			this.vuePrincipale.changerDeVue("Liste visiteurs") ;
+			System.out.println("Controleur::seConnecter()::identifiants corrects") ;
+		}
+		else {
+			bSuccess = false;
+			System.out.println("Controleur::seConnecter()::identifiants incorrects") ;
+		}
+		return bSuccess;
+	}
+
+	/** Déconnecter l'utilisateur courant
+	 * @throws SQLException Peut générer une exception sql
+	 */
+	public void deconnexion() throws SQLException {
+		System.out.println("Controleur::deconnexion()") ;
+		this.vuePrincipale.etatMenu(0);
+		this.vuePrincipale.changerDeVue("Vue connexion") ;
 	}
 	
 }
