@@ -27,16 +27,16 @@ public class VueListeRapports extends JPanel implements ActionListener{
 	private JTable tableauRapports ;
 	private TableRowSorter trieur ;
 	
-	private String[] moisList = {"Tous les mois", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" };
-	private JComboBox moisBox = new JComboBox(moisList) ;
-	private String[] anneeList = {"Toutes les années", "2010", "2011", "2012", "2013", "2014" };
-	private JComboBox anneeBox = new JComboBox(anneeList) ;
-	private JComboBox visiteurBox = new JComboBox() ;
+//	private String[] moisList = {"Tous les mois", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" };
+//	private JComboBox moisBox = new JComboBox(moisList) ;
+//	private String[] anneeList = {"Toutes les années", "2010", "2011", "2012", "2013", "2014" };
+//	private JComboBox anneeBox = new JComboBox(anneeList) ;
+//	private JComboBox visiteurBox = new JComboBox() ;
 	private ArrayList<String> numVisiteurs = new ArrayList<String>() ;
-	private JButton bRecherche = new JButton("Recherche");
-	public JTextField visiteurField = new JTextField("") ;
-	public JTextField moisField = new JTextField("") ;
-	public JTextField anneeField = new JTextField("") ;
+//	private JButton bRecherche = new JButton("Recherche");
+//	public JTextField visiteurField = new JTextField("") ;
+//	public JTextField moisField = new JTextField("") ;
+//	public JTextField anneeField = new JTextField("") ;
 
 	public VueListeRapports(AccesModele modele, Controleur controleur) {
 		super();
@@ -48,24 +48,24 @@ public class VueListeRapports extends JPanel implements ActionListener{
 		Box boxEtiquette = Box.createHorizontalBox() ;
 		Box boxTableau = Box.createHorizontalBox() ;
 		
-		this.visiteurBox.addItem("Tous les visiteurs");
+//		this.visiteurBox.addItem("Tous les visiteurs");
 		
 		for(Visiteur visiteur : this.modele.getVisiteurs()){
-			this.visiteurBox.addItem(visiteur.getNom()) ;
+//			this.visiteurBox.addItem(visiteur.getNom()) ;
 			numVisiteurs.add(new String(visiteur.getNumero())) ;
 		}		
 		
-		boxEtiquette.add(new JLabel("Rapports de visite - Mois : ")) ;
-		boxEtiquette.add(moisField) ;
-		boxEtiquette.add(new JLabel("  - Année : ")) ;
-		boxEtiquette.add(anneeField) ;
-		boxEtiquette.add(new JLabel("  - Visiteur : ")) ;
-		boxEtiquette.add(visiteurField) ;
-		boxEtiquette.add(bRecherche) ;
-		moisField.addActionListener(this);
-		anneeField.addActionListener(this);
-		visiteurField.addActionListener(this);
-		bRecherche.addActionListener(this);
+//		boxEtiquette.add(new JLabel("Rapports de visite - Mois : ")) ;
+//		boxEtiquette.add(moisField) ;
+//		boxEtiquette.add(new JLabel("  - Année : ")) ;
+//		boxEtiquette.add(anneeField) ;
+//		boxEtiquette.add(new JLabel("  - Visiteur : ")) ;
+//		boxEtiquette.add(visiteurField) ;
+//		boxEtiquette.add(bRecherche) ;
+//		moisField.addActionListener(this);
+//		anneeField.addActionListener(this);
+//		visiteurField.addActionListener(this);
+//		bRecherche.addActionListener(this);
 		
 		
 		boxEtiquette.add(Box.createHorizontalGlue()) ;
@@ -95,9 +95,9 @@ public class VueListeRapports extends JPanel implements ActionListener{
 //		visiteurBox.setSelectedIndex(0);
 		modeleTableauRapports = new ModeleListeRapports(modele,controleur) ;
 		tableauRapports.setModel(modeleTableauRapports);
-		visiteurField.setText(controleur.getVisiteurRapport());
-		moisField.setText(controleur.getMoisRapport());
-		anneeField.setText(controleur.getAnneeRapport());
+//		visiteurField.setText(controleur.getVisiteurRapport());
+//		moisField.setText(controleur.getMoisRapport());
+//		anneeField.setText(controleur.getAnneeRapport());
 		this.appliquerRendu();
 	}
 	
@@ -111,32 +111,32 @@ public class VueListeRapports extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object sourceEvt = e.getSource() ;
 				
-		String moisText = moisField.getText();
-		String anneeText = anneeField.getText();
-		String concatText = moisText + "/" + anneeText;
-		String visiteurText = visiteurField.getText();
-		if(moisText.equals("Tous les mois") && anneeText.equals("Toutes les années") && visiteurText.equals("Tous les visiteurs")){
-			trieur.setRowFilter(null);
-		}
-		else if(visiteurText.equals("Tous les visiteurs")){
-			trieur.setRowFilter(RowFilter.regexFilter(concatText, 3));
-		}
-		else if(moisText.equals("Tous les mois") && anneeText.equals("Toutes les années")){
-			trieur.setRowFilter(RowFilter.regexFilter(visiteurText, 0));
-			System.out.println(visiteurText);
-		}
-		else{
-			final RowFilter<ModeleListeRapports, String> premierFiltre = RowFilter.regexFilter(concatText, 3);
-			final RowFilter<ModeleListeRapports, String> troisiemeFiltre = RowFilter.regexFilter(visiteurText, 0);
-			
-			final List<RowFilter<ModeleListeRapports, String>> filtres = new ArrayList<RowFilter<ModeleListeRapports, String>>();
-			filtres.add(premierFiltre);
-			filtres.add(troisiemeFiltre);
-			
-			final RowFilter<ModeleListeRapports, String>  compoundRowFilter = RowFilter.andFilter(filtres);
-			trieur.setRowFilter(compoundRowFilter);
-		}
-		
+//		String moisText = moisField.getText();
+//		String anneeText = anneeField.getText();
+//		String concatText = moisText + "/" + anneeText;
+//		String visiteurText = visiteurField.getText();
+//		if(moisText.equals("Tous les mois") && anneeText.equals("Toutes les années") && visiteurText.equals("Tous les visiteurs")){
+//			trieur.setRowFilter(null);
+//		}
+//		else if(visiteurText.equals("Tous les visiteurs")){
+//			trieur.setRowFilter(RowFilter.regexFilter(concatText, 3));
+//		}
+//		else if(moisText.equals("Tous les mois") && anneeText.equals("Toutes les années")){
+//			trieur.setRowFilter(RowFilter.regexFilter(visiteurText, 0));
+//			System.out.println(visiteurText);
+//		}
+//		else{
+//			final RowFilter<ModeleListeRapports, String> premierFiltre = RowFilter.regexFilter(concatText, 3);
+//			final RowFilter<ModeleListeRapports, String> troisiemeFiltre = RowFilter.regexFilter(visiteurText, 0);
+//			
+//			final List<RowFilter<ModeleListeRapports, String>> filtres = new ArrayList<RowFilter<ModeleListeRapports, String>>();
+//			filtres.add(premierFiltre);
+//			filtres.add(troisiemeFiltre);
+//			
+//			final RowFilter<ModeleListeRapports, String>  compoundRowFilter = RowFilter.andFilter(filtres);
+//			trieur.setRowFilter(compoundRowFilter);
+//		}
+//		
 	}
 	
 }

@@ -49,7 +49,7 @@ public class ModeleListeRapports extends AbstractTableModel {
 	public String getBilanRapport(int indiceLigne){
 		return rapportsVisite.get(indiceLigne).getBilan() ;
 	}
-	
+
 	/** Obtenir le numéro du rapport de visite
 	 * 
 	 * @param indiceLigne L'indice de la ligne
@@ -64,7 +64,6 @@ public class ModeleListeRapports extends AbstractTableModel {
 	 * @return Le nombre de lignes
 	 */
 	public int getRowCount(){
-		//System.out.println("ModeleListeVehicules::getRowCount()") ;
 		return rapportsVisite.size() ;
 	}
 
@@ -73,7 +72,6 @@ public class ModeleListeRapports extends AbstractTableModel {
 	 * @return Le nombre de colonnes
 	 */
 	public int getColumnCount(){
-		//System.out.println("ModeleListeVehicules::getColumnCount()") ;
 		return entetes.length ;
 	}
 
@@ -83,7 +81,6 @@ public class ModeleListeRapports extends AbstractTableModel {
 	 * @return Le nom de la colonne
 	 */
 	public String getColumnName(int indiceColonne){
-		//System.out.println("ModeleListeVehicules::getColumnName()") ;
 		return entetes[indiceColonne] ;
 	}
 	
@@ -190,5 +187,12 @@ public class ModeleListeRapports extends AbstractTableModel {
                 	  return false;
              }
          }
-	
+
+	public List<RapportVisite> getRapportsVisite() {
+		return rapportsVisite;
+	}
+
+	public void setRapportsVisite(List<RapportVisite> rapportsVisite) {
+		this.rapportsVisite = rapportsVisite;
+	}
 }

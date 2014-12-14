@@ -59,6 +59,15 @@ public class ModeleListeVisiteurs extends AbstractTableModel {
 		return visiteurs.get(indiceLigne).getNom() ;
 	}
 	
+	/** Obtenir le numéro du visiteur
+	 * 
+	 * @param indiceLigne L'indice de la ligne
+	 * @return Le numéro du visiteur
+	 */
+	public String getMatVisiteur(int indiceLigne) {
+		return visiteurs.get(indiceLigne).getNumero() ;
+	}
+	
 	public VueListeRapports getVueListeRapports() {
 		return vueListeRapports;
 	}

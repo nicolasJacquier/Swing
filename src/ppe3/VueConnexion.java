@@ -44,7 +44,6 @@ public class VueConnexion extends JPanel implements ActionListener {
 		this.lbUserPass.setLabelFor(pfUserPass);
 		this.bSeConnecter.addActionListener(this);
 		panel.add(lbText);
-		panel.add(lbText1);
 		panel.add(bSeConnecter);
 		this.add(this.panel);
 	}

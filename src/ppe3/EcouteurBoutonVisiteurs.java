@@ -13,6 +13,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.toedter.calendar.JMonthChooser;
+import com.toedter.calendar.JYearChooser;
+
 public class EcouteurBoutonVisiteurs implements ActionListener {
 	private int row ;
 	private int column ;
@@ -50,37 +53,30 @@ public class EcouteurBoutonVisiteurs implements ActionListener {
 		Controleur controleur = ((ModeleListeVisiteurs) this.table.getModel()).getControleur() ;
 		AccesModele modele = ((ModeleListeVisiteurs) this.table.getModel()).getModele() ;
 		String nomVisiteur = ((ModeleListeVisiteurs) this.table.getModel()).getNomVisiteur(this.row) ;
+		String matVisiteur = ((ModeleListeVisiteurs) this.table.getModel()).getMatVisiteur(this.row) ;
 		
 		switch(this.column) {
 		case 4 :
 			System.out.println("----------------------------------------") ;
 			System.out.println("[Sélectionner visiteur]") ;
 			
-			JLabel labelMois = new JLabel("Mois :");
-			JTextField moisField = new JTextField();
-			JLabel labelAnnee = new JLabel("Année :");
-			JTextField anneeField = new JTextField();
-			String[] moisList = {"Tous les mois", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" };
-			JComboBox moisBox = new JComboBox(moisList) ;
-			String[] anneeList = {"Toutes les années", "2010", "2011", "2012", "2013", "2014" };
-			JComboBox anneeBox = new JComboBox(anneeList) ;
-			labelMois.setLabelFor(moisBox);
-			labelAnnee.setLabelFor(anneeBox);
-			String Message = "Choisir le mois et l'année \n du rapport de visite du visiteur ";
-			Object[] content = {Message,labelMois,moisBox,labelAnnee,anneeBox};
+			JMonthChooser chooserM = new JMonthChooser();
+			JYearChooser chooserY = new JYearChooser();
+			JLabel lMois = new JLabel("Mois");
+			JLabel lAnnee = new JLabel("Année");
+			lMois.setLabelFor(chooserM);
+			lAnnee.setLabelFor(chooserY);
+			
+			
+			String Message = "Choisir le mois et l'année \n du rapport de visite du visiteur " + nomVisiteur + ".";
+			Object[] content = {Message,lMois,chooserM,lAnnee,chooserY};
 			int dialogBox = JOptionPane.showOptionDialog(null,content, "Choix",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, null, null);
 			if (dialogBox == JOptionPane.OK_OPTION){
 				try {
-//					String moisText = moisField.getText() ;
-//					String anneeText = anneeField.getText() ;
-					String moisText = moisBox.getSelectedItem().toString();
-					String anneeText = anneeBox.getSelectedItem().toString();
-					((ModeleListeVisiteurs) this.table.getModel()).getControleur().setVisiteurRapport(nomVisiteur);
-					((ModeleListeVisiteurs) this.table.getModel()).getControleur().setMoisRapport(moisText);
-					((ModeleListeVisiteurs) this.table.getModel()).getControleur().setAnneeRapport(anneeText);
-//					JOptionPane.showMessageDialog(null, "Rapport de visite de "+nomVisiteur+" selectionné.", "Sélection", JOptionPane.PLAIN_MESSAGE);
+					chooserM.setMonth(chooserM.getMonth() + 1);
+					controleur.creerRapportVisite(matVisiteur, chooserY.getYear(), chooserM.getMonth());
 					controleur.visualiserRapportsVisite();
 				}
 				catch(NullPointerException npe) {

@@ -24,7 +24,6 @@ public class EcouteurBoutonRapports implements ActionListener {
 	}
 
 	/** Modifier l'indice de la colonne
-	 * 
 	 * @param column L'indice de la colonne
 	 */
 	public void setColumn(int column){
@@ -43,6 +42,7 @@ public class EcouteurBoutonRapports implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("EcouteurBoutonRapports::actionPerformed()") ;
+		AccesModele modele = ((ModeleListeRapports) this.table.getModel()).getModele() ;
 		Controleur controleur = ((ModeleListeRapports) this.table.getModel()).getControleur() ;
 		String bilanRapport = ((ModeleListeRapports)this.table.getModel()).getBilanRapport(this.row) ;
 		String numRapport = ((ModeleListeRapports)this.table.getModel()).getNumBilanRapport(this.row) ;
@@ -51,9 +51,13 @@ public class EcouteurBoutonRapports implements ActionListener {
 		case 5 :
 			System.out.println("----------------------------------------") ;
 			System.out.println("[Lire bilan]") ;
-			JOptionPane.showMessageDialog(null, bilanRapport, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);
+//			JOptionPane.showMessageDialog(null, bilanRapport, "Bilan du rapport de visite", JOptionPane.PLAIN_MESSAGE);
 			((ModeleListeRapports) this.table.getModel()).setValueAt(new String(), this.row, 6);
 			controleur.setRapportVisiteLu(numRapport);
+			controleur.setNumRapport(numRapport);
+			modele.remplirRapport(numRapport);
+			new ModeleDetailRapports(modele, controleur, numRapport) ;
+			controleur.visualiserDetailRapport();
 
 			break ;
 		}			

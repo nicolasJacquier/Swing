@@ -17,6 +17,7 @@ public class AccesModele {
 
 	private List<Visiteur> visiteurs = new ArrayList<Visiteur>() ;
 	private List<RapportVisite> rapportsVisite = new ArrayList<RapportVisite>() ;
+	private List<RapportVisite> rapportsVisiteSelec = new ArrayList<RapportVisite>() ;
 	private List<String> nomVisiteurs = new ArrayList<String>() ;
 	private List<String> prenomVisiteurs = new ArrayList<String>() ;
 	
@@ -24,9 +25,7 @@ public class AccesModele {
 	private ResultSet rs = null ;
 	private PreparedStatement ps = null;
 	
-	private String visiteur = "";
-	private String annee = "";
-	private String mois = "";
+	private String matRap = "";
 	private String sMatriculeDelegC = "";
 	
 	public AccesModele(){
@@ -46,12 +45,26 @@ public class AccesModele {
 		    catch (SQLException ex)           {System.err.println(ex.getMessage());}
 	 }
 	
-	public void remplirRapports() {
+	public void remplirRapports(String matDeg, int year, int month) {
 		try {
 		    Class.forName("com.mysql.jdbc.Driver").newInstance();
 		    String url = "jdbc:mysql://localhost/GsbCRSlam";
 		    conn = DriverManager.getConnection(url, "root", "mysql");
-		    selectRapportsVisite();
+		    this.rapportsVisite.clear();
+		    selectRapportsVisite(matDeg, year, month);
+	    }
+		    catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
+		    catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
+		    catch (InstantiationException ex) {System.err.println(ex.getMessage());}
+		    catch (SQLException ex)           {System.err.println(ex.getMessage());}
+	 }
+	
+	public void remplirRapport(String matDeg) {
+		try {
+		    Class.forName("com.mysql.jdbc.Driver").newInstance();
+		    String url = "jdbc:mysql://localhost/GsbCRSlam";
+		    conn = DriverManager.getConnection(url, "root", "mysql");
+		    selectUniqueRapportVisite(matDeg);
 	    }
 		    catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
 		    catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
@@ -68,7 +81,7 @@ public class AccesModele {
 		  		+ "								INNER JOIN TRAVAILLER "
 		  		+ "								ON TRAVAILLER.REG_CODE = REGION.REG_CODE "
 		  		+ "								WHERE TRAVAILLER.VIS_MATRICULE=? "
-		  		+ "								AND TRAVAILLER.TRA_ROLE='Délégué') ";
+		  		+ "								AND TRAVAILLER.TRA_ROLE!='Visiteur') ";
 		  try {
 			  PreparedStatement st = conn.prepareStatement(query);
 			  st.setString(1,matDeg);
@@ -90,7 +103,7 @@ public class AccesModele {
 		return this.visiteurs;
 	}
 	 
-	 public void selectRapportsVisite() {
+	 public void selectRapportsVisite(String matDeg, int year, int month) {
 		  System.out.println("Remplissages Rapports :");
 		  String query = "SELECT PRATICIEN.PRA_NOM, PRATICIEN.PRA_VILLE, "
 		  		+ "RAPPORT_VISITE.RAP_DATE, RAPPORT_VISITE.RAP_DATE_REDAC, "
@@ -99,9 +112,15 @@ public class AccesModele {
 		  		+ "VISITEUR.VIS_NOM "
 		  		+ "FROM RAPPORT_VISITE, PRATICIEN, VISITEUR "
 		  		+ "WHERE RAPPORT_VISITE.PRA_NUM=PRATICIEN.PRA_NUM "
-		  		+ "AND RAPPORT_VISITE.VIS_MATRICULE=VISITEUR.VIS_MATRICULE";
+		  		+ "AND RAPPORT_VISITE.VIS_MATRICULE=VISITEUR.VIS_MATRICULE "
+		  		+ "AND RAPPORT_VISITE.VIS_MATRICULE=? "
+		  		+ "AND YEAR(RAP_DATE)=? "
+		  		+ "AND MONTH(RAP_DATE)=? ";
 		  try {
 			  PreparedStatement ps = conn.prepareStatement(query);
+			  ps.setString(1, matDeg);
+			  ps.setInt(2, year);
+			  ps.setInt(3, month);
 			  ResultSet rs = ps.executeQuery();
 			  while (rs.next()) {
 				  String matVis = rs.getString("RAPPORT_VISITE.VIS_MATRICULE");
@@ -125,6 +144,42 @@ public class AccesModele {
 		  catch (SQLException ex) {System.err.println(ex.getMessage());}
 	}
 	 
+	 public void selectUniqueRapportVisite(String matRap) {
+		  System.out.println("Remplissages Rapports :");
+		  String query = "SELECT PRATICIEN.PRA_NOM, PRATICIEN.PRA_VILLE, "
+		  		+ "RAPPORT_VISITE.RAP_DATE, RAPPORT_VISITE.RAP_DATE_REDAC, "
+		  		+ "RAPPORT_VISITE.RAP_BILAN, RAPPORT_VISITE.RAP_LU, "
+		  		+ "RAPPORT_VISITE.VIS_MATRICULE, RAPPORT_VISITE.RAP_NUM,"
+		  		+ "VISITEUR.VIS_NOM "
+		  		+ "FROM RAPPORT_VISITE, PRATICIEN, VISITEUR "
+		  		+ "WHERE RAPPORT_VISITE.PRA_NUM=PRATICIEN.PRA_NUM "
+		  		+ "AND RAPPORT_VISITE.VIS_MATRICULE=VISITEUR.VIS_MATRICULE "
+		  		+ "AND RAPPORT_VISITE.RAP_NUM=? ";
+		  try {
+			  PreparedStatement ps = conn.prepareStatement(query);
+			  ps.setString(1, matRap);
+			  ResultSet rs = ps.executeQuery();
+			  while (rs.next()) {
+				  String matVis = rs.getString("RAPPORT_VISITE.VIS_MATRICULE");
+				  String nomPra = rs.getString("PRATICIEN.PRA_NOM");
+				  String villePra = rs.getString("PRATICIEN.PRA_VILLE") ;
+				  Date dateVisite = rs.getDate("RAPPORT_VISITE.RAP_DATE") ;
+				  Date dateRedac = rs.getDate("RAPPORT_VISITE.RAP_DATE_REDAC") ;
+				  String bilan = rs.getString("RAPPORT_VISITE.RAP_BILAN");
+				  String lu = rs.getString("RAPPORT_VISITE.RAP_LU");
+				  String rapNum = rs.getString("RAPPORT_VISITE.RAP_NUM");
+				  String nomVis = rs.getString("VISITEUR.VIS_NOM");
+				  GregorianCalendar dateVisite2 = new GregorianCalendar();
+				  GregorianCalendar dateRedac2 = new GregorianCalendar();
+				  dateVisite2.setTime(dateVisite);
+				  dateRedac2.setTime(dateRedac);
+				  this.rapportsVisiteSelec.add(new RapportVisite(rapNum,nomPra,nomVis,matVis,dateVisite2,dateRedac2,villePra,bilan,lu)) ;
+				  //System.out.println(visiteurs.get(i));
+				  //i ++;
+				  }
+		  }
+		  catch (SQLException ex) {System.err.println(ex.getMessage());}
+	}
 	 
 	 public void setReadRapportsVisite(String numRapport) {
 		  String query = "UPDATE RAPPORT_VISITE "
@@ -177,31 +232,15 @@ public class AccesModele {
 	public List<RapportVisite> getRapportsVisite() {
 		return rapportsVisite;
 	}
+	
+	public String getMatRap() {
+		return matRap;
+	}
 
-	public void setVisiteurPourRapport(String nomVisiteur) {
-		visiteur = nomVisiteur ;
+	public void setMatRap(String matRap) {
+		this.matRap = matRap;
 	}
-	
-	public String getVisiteurPourRapport() {
-		return visiteur ;
-	}
-	
-	public void setAnneePourRapport(String anneeField) {
-		annee = anneeField ;
-	}
-	
-	public String getAnneePourRapport() {
-		return annee ;
-	}
-	
-	public void setMoisPourRapport(String moisField) {
-		mois = moisField ;
-	}
-	
-	public String getMoisPourRapport() {
-		return mois ;
-	}
-	
+
 	/** Obtenir le matricule du délégué connecté
 	 *
 	 * @return Matricule du délégué connecté
@@ -229,7 +268,7 @@ public class AccesModele {
 		String query = "SELECT VISITEUR.VIS_MATRICULE ,VIS_MDP "
 				+ "FROM VISITEUR "
 				+ "INNER JOIN TRAVAILLER ON VISITEUR.VIS_MATRICULE = TRAVAILLER.VIS_MATRICULE "
-				+ "WHERE VISITEUR.VIS_MATRICULE=? AND VISITEUR.VIS_MDP=? AND TRAVAILLER.TRA_ROLE='Délégué'";
+				+ "WHERE VISITEUR.VIS_MATRICULE=? AND VISITEUR.VIS_MDP=? AND TRAVAILLER.TRA_ROLE != 'Visiteur'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String url = "jdbc:mysql://localhost/GsbCRSlam";
@@ -244,7 +283,6 @@ public class AccesModele {
 						bToAccess = true;
 						this.setDelegueConnecter(rs.getString("VIS_MATRICULE"));
 						this.remplirVisiteurs(rs.getString("VIS_MATRICULE"));
-						this.remplirRapports();
 						
 					}
 				}
@@ -264,9 +302,7 @@ public class AccesModele {
 	public void resetData(){
 		this.visiteurs = new ArrayList<Visiteur>() ;
 		this.rapportsVisite = new ArrayList<RapportVisite>() ;
-		this.visiteur = null;
-		this.annee = null ;
-		this.mois = null ;
 		this.sMatriculeDelegC = null;
+		this.matRap = null;
 	}
 }

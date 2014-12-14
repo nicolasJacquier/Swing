@@ -46,6 +46,14 @@ public class Controleur {
 	/** Visualiser la page de connexion
 	 * 
 	 */
+	public void visualiserDetailRapport(){
+		System.out.println("Controleur::visualiserDetailRapport()") ;
+		this.vuePrincipale.changerDeVue("Vue détail rapport de visite");
+	}
+	
+	/** Visualiser la page de connexion
+	 * 
+	 */
 	public void visualiserConnexion(){
 		System.out.println("Controleur::visualiserConnexion()") ;
 		this.vuePrincipale.changerDeVue("Vue connexion");
@@ -93,52 +101,28 @@ public class Controleur {
 		this.modele.setDontReadRapportsVisite();
 	}
 	
-	/** Modifier le paramètre : visiteur du rapport de visite à partir de la sélection d'un visiteur
+	/** Modifier le paramètre : numéro du rapport de visite à partir de la sélection d'un rapport
 	 * 
 	 */
-	public void setVisiteurRapport(String nomVisiteur){
+	public void setNumRapport(String numeroRapport){
 		System.out.println("Controleur::setVisiteurRapport()");
-		this.modele.setVisiteurPourRapport(nomVisiteur);
+		this.modele.setMatRap(numeroRapport);
 	}
 		
-	/** Obtenir le paramètre : visiteur du rapport de visite à partir de la sélection d'un visiteur
+	/** Obtenir le paramètre : numéro du rapport de visite à partir de la sélection d'un rapport
 	 * 
 	 */
-	public String getVisiteurRapport(){
+	public String getNumRapport(){
 		System.out.println("Controleur::setVisiteurRapport()");
-		return this.modele.getVisiteurPourRapport();
+		return this.modele.getMatRap();
 	}
 	
-	/** Modifier le paramètre : mois du rapport de visite à partir de la sélection d'un visiteur
+	/** Créer la liste des rapports de visite
 	 * 
 	 */
-	public void setMoisRapport(String moisRapport){
-		System.out.println("Controleur::setMoisRapport()");
-		this.modele.setMoisPourRapport(moisRapport);
-	}
-		
-	/** Obtenir le paramètre : mois du rapport de visite à partir de la sélection d'un visiteur
-	 * 
-	 */
-	public String getMoisRapport(){
-		System.out.println("Controleur::getMoisRapport()");
-		return this.modele.getMoisPourRapport();
-	}
-	
-	/** Modifier le paramètre : année du rapport de visite à partir de la sélection d'un visiteur
-	 * 
-	 */
-	public void setAnneeRapport(String anneeRapport){
-		System.out.println("Controleur::setAnneeRapport()");
-		this.modele.setAnneePourRapport(anneeRapport);
-	}
-		
-	/** Obtenir le paramètre : année du rapport de visite à partir de la sélection d'un visiteur
-	 * 
-	 */
-	public String getAnneeRapport(){
-		System.out.println("Controleur::getAnneeRapport()");
-		return this.modele.getAnneePourRapport();
+	public void creerRapportVisite(String matDeg, int year, int month){
+		System.out.println("Controleur::creerRapportVisite");
+		this.modele.remplirRapports(matDeg, year, month);
 	}
 	
 	/** Quitter l'application
@@ -157,7 +141,7 @@ public class Controleur {
 	 * @throws SQLException Peut générer une exception sql
 	 * @return Vrai si il existe un délégué avec cet indentifiant et mot de passe
 	 */
-	public boolean seConnecter(String sLogin, String sPasswd ) throws SQLException {
+	public boolean seConnecter(String sLogin, String sPasswd) throws SQLException {
 		boolean bSuccess = true;
 		System.out.println("Controleur::seConnecter()") ;
 		boolean coOK = this.modele.seConnecter(sLogin,sPasswd) ;

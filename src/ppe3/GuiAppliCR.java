@@ -37,6 +37,7 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 	
 	private VueListeVisiteurs vueVisualiserVisiteurs ;
 	private VueListeRapports vueVisualiserRapports ;
+	private VueDetailRapports vueDetailRapports ;
 	private VueConnexion vueConnexion ;
 	
 	private CardLayout vues ;
@@ -67,10 +68,12 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		
 		vueVisualiserVisiteurs = new VueListeVisiteurs(modele,controleur) ;
 		vueVisualiserRapports = new VueListeRapports(modele,controleur);
+		vueDetailRapports = new VueDetailRapports(modele,controleur);
 		vueConnexion = new VueConnexion(modele,controleur);
 		
 		this.conteneur.add(vueVisualiserVisiteurs,"Liste visiteurs") ;
 		this.conteneur.add(vueVisualiserRapports,"Liste rapports de visite") ;
+		this.conteneur.add(vueDetailRapports,"Vue détail rapport de visite") ;
 		this.conteneur.add(vueConnexion,"Vue connexion") ;
 		
 		this.vues.show(this.conteneur, "Vue connexion");
@@ -205,6 +208,9 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		}
 		else if(nomVue.equals("Vue connexion")){
 			this.vueConnexion.actualiser() ;
+		}
+		else if(nomVue.equals("Vue détail rapport de visite")){
+			this.vueDetailRapports.actualiser() ;
 		}
 		this.vues.show(this.conteneur,nomVue) ;
 	}
