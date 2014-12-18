@@ -1,5 +1,6 @@
 package ppe3 ;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -58,6 +59,12 @@ public class Dates {
 				return false ;
 			}
 		}
+	}
+	
+	public static Calendar DateToCalendar(Date date){ 
+		  Calendar cal = Calendar.getInstance();
+		  cal.setTime(date);
+		  return cal;
 	}
 	
 }

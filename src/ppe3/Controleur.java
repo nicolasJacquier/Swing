@@ -75,6 +75,14 @@ public class Controleur {
 		this.vuePrincipale.changerDeVue("Liste rapports de visite");
 	}
 	
+	/** Visualiser la liste des Praticiens Hesitants sous une forme tabulaire
+	 * 
+	 */
+	public void visualiserPraticiensH(){
+		System.out.println("Controleur::visualiserPraticiensH()") ;
+		this.vuePrincipale.changerDeVue("Liste des Praticiens Hesitants");
+	}
+	
 	/** Visualiser le bilan des rapports de visite
 	 * 
 	 */
@@ -105,7 +113,7 @@ public class Controleur {
 	 * 
 	 */
 	public void setNumRapport(String numeroRapport){
-		System.out.println("Controleur::setVisiteurRapport()");
+		System.out.println("Controleur::setNumRapport()");
 		this.modele.setMatRap(numeroRapport);
 	}
 		

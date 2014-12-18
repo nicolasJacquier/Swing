@@ -20,6 +20,7 @@ public class AccesModele {
 	private List<RapportVisite> rapportsVisiteSelec = new ArrayList<RapportVisite>() ;
 	private List<String> nomVisiteurs = new ArrayList<String>() ;
 	private List<String> prenomVisiteurs = new ArrayList<String>() ;
+	private List<PraticienH> praticiensH = new ArrayList<PraticienH>();
 	
 	private Connection conn = null ;
 	private ResultSet rs = null ;
@@ -30,6 +31,7 @@ public class AccesModele {
 	
 	public AccesModele(){
 		super();
+		remplirPraticiensH();
 	}
 	
 	public void remplirVisiteurs(String matDeg) {
@@ -65,6 +67,19 @@ public class AccesModele {
 		    String url = "jdbc:mysql://localhost/GsbCRSlam";
 		    conn = DriverManager.getConnection(url, "root", "mysql");
 		    selectUniqueRapportVisite(matDeg);
+	    }
+		    catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
+		    catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
+		    catch (InstantiationException ex) {System.err.println(ex.getMessage());}
+		    catch (SQLException ex)           {System.err.println(ex.getMessage());}
+	 }
+	
+	public void remplirPraticiensH() {
+		try {
+		    Class.forName("com.mysql.jdbc.Driver").newInstance();
+		    String url = "jdbc:mysql://localhost/GsbCRSlam";
+		    conn = DriverManager.getConnection(url, "root", "mysql");
+		    selectPraticiensH();
 	    }
 		    catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
 		    catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
@@ -302,7 +317,42 @@ public class AccesModele {
 	public void resetData(){
 		this.visiteurs = new ArrayList<Visiteur>() ;
 		this.rapportsVisite = new ArrayList<RapportVisite>() ;
+		this.praticiensH = new ArrayList<PraticienH>() ;
 		this.sMatriculeDelegC = null;
 		this.matRap = null;
 	}
+	
+	
+	 public void selectPraticiensH() {
+		  System.out.println("Affichage des Praticiens Hesitants :");
+		  String query = "SELECT PRA_NOM, PRA_VILLE, PRA_COEFCONFIANCE, PRA_COEFNOTORIETE,RAP_DATE "
+		  		+ "FROM PRATICIEN LEFT OUTER JOIN RAPPORT_VISITE "
+		  		+ "ON PRATICIEN.PRA_NUM = RAPPORT_VISITE.PRA_NUM"
+		  		+ " WHERE RAP_DATE IS TRUE";
+		  		
+		  		
+		  try {
+			  Statement st = conn.createStatement();
+			  ResultSet rs = st.executeQuery(query); 
+			
+			  while (rs.next()) {
+				  String nom = rs.getString("PRA_NOM");
+				  String ville = rs.getString("PRA_VILLE") ;
+				  int coefC = rs.getInt("PRA_COEFCONFIANCE") ;
+				  Date rapDate = rs.getDate("RAPPORT_VISITE.RAP_DATE") ;
+				  int coefN = rs.getInt("PRA_COEFNOTORIETE");
+				  this.praticiensH.add(new PraticienH(nom,ville,coefC,rapDate,coefN)) ;
+				 
+				  }
+		  }
+		  catch (SQLException ex) {System.err.println(ex.getMessage());}
+	}
+	 
+	 
+	 
+	public List<PraticienH> getPraticiensH() {
+		System.out.println("AccesModele::getPraticiensH()") ;
+		return this.praticiensH;
+	}
+	
 }

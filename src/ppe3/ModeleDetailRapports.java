@@ -52,10 +52,10 @@ public class ModeleDetailRapports extends AbstractTableModel {
 		this.modele = modele ;
 		this.controleur = controleur ;
 		matRap = controleur.getNumRapport() ;
-		System.out.println(matRap);
+//		System.out.println(matRap);
 		for(RapportVisite rapportVisite : modele.getRapportsVisite()){
-			System.out.println(rapportVisite.getRapNum());
-			System.out.println(modele.getRapportsVisite());
+//			System.out.println(rapportVisite.getRapNum());
+//			System.out.println(modele.getRapportsVisite());
 			rapportSelec = null ;
 			rapportSelec = modele.getRapportsVisite().get(modele.getRapportsVisite().size()-1);
 //			if(rapportsVisiteSelec.size() == 1){

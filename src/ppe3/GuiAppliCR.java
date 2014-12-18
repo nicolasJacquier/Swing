@@ -30,11 +30,14 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 	
 	private JMenuItem itemVisualiserVisiteurs;
 	private JMenuItem itemVisualiserRapports;
+	private JMenuItem itemVisualiserPraticiensH ;
 	
 	private JMenu menuFichier ;
 	private JMenu menuVisiteurs ;
 	private JMenu menuRapports ;
-	
+	private JMenu menuPraticiensH ;
+
+	private VueListePraticiensH vueVisualiserPraticiensH ;	
 	private VueListeVisiteurs vueVisualiserVisiteurs ;
 	private VueListeRapports vueVisualiserRapports ;
 	private VueDetailRapports vueDetailRapports ;
@@ -70,10 +73,12 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		vueVisualiserRapports = new VueListeRapports(modele,controleur);
 		vueDetailRapports = new VueDetailRapports(modele,controleur);
 		vueConnexion = new VueConnexion(modele,controleur);
+		vueVisualiserPraticiensH = new VueListePraticiensH(modele,controleur) ;
 		
 		this.conteneur.add(vueVisualiserVisiteurs,"Liste visiteurs") ;
 		this.conteneur.add(vueVisualiserRapports,"Liste rapports de visite") ;
 		this.conteneur.add(vueDetailRapports,"Vue détail rapport de visite") ;
+		this.conteneur.add(vueVisualiserPraticiensH,"Liste des Praticiens Hesitants") ;
 		this.conteneur.add(vueConnexion,"Vue connexion") ;
 		
 		this.vues.show(this.conteneur, "Vue connexion");
@@ -141,15 +146,21 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		menuRapports = new JMenu("Rapports de visite");
 		this.itemVisualiserRapports = new JMenuItem("Liste des rapports de visite");
 		this.itemVisualiserRapports.addActionListener(this);
+		menuPraticiensH = new JMenu("Praticiens Hesitants");
+		this.itemVisualiserPraticiensH = new JMenuItem("Liste des Praticiens Hesitants") ;
+		this.itemVisualiserPraticiensH.addActionListener(this) ;
+		menuPraticiensH.add(this.itemVisualiserPraticiensH) ;
 		menuRapports.add(this.itemVisualiserRapports) ;
 		menuVisiteurs.add(this.itemVisualiserVisiteurs) ;
 		
 		menuVisiteurs.setEnabled(false);
 		menuRapports.setEnabled(false);
+		menuPraticiensH.setEnabled(false);
 		
 		barreMenus.add(menuFichier) ;
 		barreMenus.add(menuVisiteurs) ;
 		barreMenus.add(menuRapports);
+		barreMenus.add(menuPraticiensH) ;
 		
 		this.setJMenuBar(barreMenus) ;
 	}
@@ -164,6 +175,14 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 
 	public JMenu getMenuFichier() {
 		return menuFichier;
+	}
+
+	public JMenu getMenuPraticiensH() {
+		return menuPraticiensH;
+	}
+
+	public void setMenuPraticiensH(JMenu menuPraticiensH) {
+		this.menuPraticiensH = menuPraticiensH;
 	}
 
 	public void setMenuFichier(JMenu menuFichier) {
@@ -212,6 +231,9 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		else if(nomVue.equals("Vue détail rapport de visite")){
 			this.vueDetailRapports.actualiser() ;
 		}
+		else if(nomVue.equals("Liste des Praticiens Hesitants")){
+			this.vueVisualiserPraticiensH.actualiser(); 
+		}
 		this.vues.show(this.conteneur,nomVue) ;
 	}
 
@@ -233,6 +255,9 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		}
 		else if(sourceEvt == this.itemVisualiserRapports){
 			this.controleur.visualiserRapportsVisite() ;
+		}
+		else if(sourceEvt == this.itemVisualiserPraticiensH){
+			this.controleur.visualiserPraticiensH() ;
 		}
 		else if(sourceEvt == this.itemDeconnexion){
 			try {
@@ -257,11 +282,13 @@ public class GuiAppliCR extends JFrame implements ActionListener {
 		if(etat == 1) {
 			this.getMenuVisiteurs().setEnabled(true);
 			this.getMenuRapports().setEnabled(true);
+			this.getMenuPraticiensH().setEnabled(true);
 			this.getItemDeconnexion().setEnabled(true);
 		}
 		else {
 			this.getMenuVisiteurs().setEnabled(false);
 			this.getMenuRapports().setEnabled(false);
+			this.getMenuPraticiensH().setEnabled(false);
 			this.getItemDeconnexion().setEnabled(false);
 		}
 	}
