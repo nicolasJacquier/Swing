@@ -51,22 +51,28 @@ public class VueListePraticiensH extends JPanel {
 		TableRowSorter<ModeleListePraticiensH> sorter = new TableRowSorter<ModeleListePraticiensH>(modeleTableauPraticiensH);   
 		tableauPraticiensH.setRowSorter(sorter);
 		
-		sorter.setSortable(0, false);
-		sorter.setSortable(1, false);
+		//sorter.setSortable(0, false);
+		//sorter.setSortable(1, false);
 		
-		sorter.setComparator(2, new CoefComparator());
-		sorter.setComparator(4, new CoefComparator());
+		//sorter.setComparator(2, new CoefComparator());
+		//sorter.setComparator(4, new CoefComparator());
 		
-		/*tableauPraticiensH. getTableHeader().addMouseListener(new MouseAdapter(){
+		tableauPraticiensH.getTableHeader().addMouseListener(new MouseAdapter(){
 			
 			 public void mouseClicked(MouseEvent e) {
 			        int colonne = tableauPraticiensH.columnAtPoint(e.getPoint());
 			        String name = tableauPraticiensH.getColumnName(colonne);
-			        System.out.println("Column index selected " + colonne + " " + name);
-			    }
-
-		});*/
-	
+			        //System.out.println("Column index selected " + colonne + " " + name);
+			        
+			        if(colonne == 4){
+			        	actualiser();
+			        	
+			        }
+			 }
+			 
+		});
+		
+		
 				
 				
 		JScrollPane spPraticiens = new JScrollPane(tableauPraticiensH) ;
